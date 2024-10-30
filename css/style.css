@@ -1,9 +1,12 @@
+/* Colour palette - beige: #F3F3E0  Dark Blue: #133E87 Med Blue: #608BC1 Light Blue: CBDCEB*/
+
 /* Mobile first styling */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); /* Importing a title font */
 .title {
     font-family: 'Bebas Neue', sans-serif;
     text-align: center;
-    font-size: 50px;
+    font-size: 64px;
+    color: #133E87;
 }
 
 /* Styling for desktops */

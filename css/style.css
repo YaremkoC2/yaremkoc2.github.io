@@ -6,10 +6,6 @@
     font-size: 50px;
 }
 
-nav{
-    text-align: center;
-}
-
 /* Styling for desktops */
 @media screen and (min-width : 800px) {
     

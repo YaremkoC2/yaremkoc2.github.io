@@ -1,6 +1,10 @@
 /* Colour palette - beige: #F3F3E0  Dark Blue: #133E87 Med Blue: #608BC1 Light Blue: CBDCEB*/
 
 /* Mobile first styling */
+body{
+    background-color: #F3F3E0;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); /* Importing a title font */
 .title {
     font-family: 'Bebas Neue', sans-serif;
@@ -22,7 +26,7 @@
   .navBox {
     width: 150px;
     height: 150px;
-    background-color: #f0f0f0;
+    background-color: #CBDCEB;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,5 +49,9 @@
 
 /* Styling for desktops */
 @media screen and (min-width : 800px) {
-    
+    .navBoxes {
+        max-width: 500px;
+        margin: 0 auto;
+        gap: 15px;
+    }
 }

@@ -15,8 +15,8 @@ body{
 
 .navBoxes {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, auto); 
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto); 
     gap: 20px;
     justify-items: center;
     align-items: center;
@@ -55,5 +55,10 @@ body{
         max-width: 500px;
         margin: 0 auto;
         gap: 15px;
+    }
+
+    .navBoxes {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, auto); 
     }
 }

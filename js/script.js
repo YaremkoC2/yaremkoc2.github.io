@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (link) {
       box.style.cursor = 'pointer';
       box.addEventListener('click', () => {
-        const isExternal = link.startsWith('http://') || link.startsWith('https://');
-        window.open(link, isExternal ? '_blank' : '_self');
+        const isInternal = link.endsWith('.html');
+        window.open(link, isInternal ? '_self' : '_blank');
       });
     }
   });

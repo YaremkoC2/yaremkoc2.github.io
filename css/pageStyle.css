@@ -4,9 +4,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
+body{
+    background-color: #F3F3E0;
+}
+
 .title a {
+    font-family: 'Bebas Neue', sans-serif;
     text-decoration: none;
     color: #133E87;
+    letter-spacing: 0.05em;
 }
 
 .navBar {
@@ -15,7 +21,7 @@
     gap: 20px;
     padding: 10px 0;
     background-color: #CBDCEB;
-    flex-wrap: wrap; /* helps it wrap on smaller screens */
+    flex-wrap: wrap;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -53,8 +59,31 @@ p{
     font-style: normal;
 }
 
-h3{
+h3 {
     font-family: "Poppins", sans-serif;
     font-weight: 600;
-    font-style: normal;
+    border-bottom: 2px solid #133E87;
+    padding-bottom: 0.5rem;
+    color: #133E87;
+}
+
+.about-box {
+    background-color: #F3F3E0;
+    border-left: 6px solid #133E87;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    background-color: #CBDCEB;
+}
+
+/* Styling for desktops */
+@media screen and (min-width : 800px) {
+    .about {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
 }

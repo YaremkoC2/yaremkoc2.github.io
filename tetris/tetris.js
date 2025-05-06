@@ -11,23 +11,24 @@ const cells = Array.from(grid.children);
 //Base Tetromino class
 class Tetromino 
 {
-    constructor(shape, color) 
+    constructor(rotations, color) 
     {
-        this.shape = shape;
+        this.rotations = rotations;
+        this.index = 0;
         this.color = color;
         this.position = 4;
     }
 
     draw() 
     {
-        this.shape[0].forEach(i => {
+        this.rotations[this.index].forEach(i => {
         cells[this.position + i].style.backgroundColor = this.color;
         });
     }
 
     erase() 
     {
-        this.shape[0].forEach(i => {
+        this.rotations[this.index].forEach(i => {
         cells[this.position + i].style.backgroundColor = '';
         });
     }
@@ -52,14 +53,27 @@ class Tetromino
         this.position += 1;
         this.draw();
     }
+
+    rotate()
+    {
+        this.erase(grid);
+        this.index = (this.index + 1) % this.rotations.length;
+        this.draw(grid);
+    }
 }
 
 // Specific Tetrominos
 class IShape extends Tetromino
 {
-    constructor()
+    constructor() 
     {
-        super([[0, 1, 2, 3]], 'cyan');
+      const rotations = [
+        [10, 11, 12, 13], 
+        [2,  12, 22, 32],   
+        [20, 21, 22, 23], 
+        [1,  10, 11, 21]    
+      ];
+      super(rotations, 'cyan');
     }
 }
 
@@ -67,7 +81,13 @@ class JShape extends Tetromino
 {
     constructor()
     {
-        super([[0, 10, 11, 12]], 'blue');
+        const rotations = [
+            [0,  10, 11, 12], 
+            [1,  2,  11, 21],   
+            [10, 11, 12, 22], 
+            [1,  11, 21, 20]    
+        ];
+        super(rotations, 'blue');
     }
 }
 
@@ -75,7 +95,13 @@ class LShape extends Tetromino
 {
     constructor()
     {
-        super([[2, 10, 11, 12]], 'orange');
+        const rotations = [
+            [2,  10, 11, 12], 
+            [1,  11, 21, 22],   
+            [10, 11, 12, 20], 
+            [0,  1,  11, 21]    
+        ];
+        super(rotations, 'orange');
     }
 }
 
@@ -85,13 +111,24 @@ class OShape extends Tetromino
     {
         super([[0, 1, 10, 11]], 'yellow');
     }
+
+    rotate()
+    {
+        return;
+    }
 }
 
 class SShape extends Tetromino
 {
     constructor()
     {
-        super([[1, 2, 10, 11]], 'green');
+        const rotations = [
+            [1,  2,  10, 11], 
+            [1,  11, 12, 22],   
+            [11, 12, 20, 21], 
+            [0,  10, 11, 21]    
+        ];
+        super(rotations, 'green');
     }
 }
 
@@ -99,15 +136,28 @@ class TShape extends Tetromino
 {
     constructor() 
     {
-      super([[1, 10, 11, 12]], 'purple');
+        const rotations = [
+            [1,  10, 11, 12], 
+            [1,  11, 12, 21],   
+            [10, 11, 12, 21], 
+            [1,  10, 11, 21]    
+        ];
+        super(rotations, 'purple');
     }
 }
+  
 
 class ZShape extends Tetromino 
 {
     constructor() 
     {
-      super([[0, 1, 11, 12]], 'red');
+        const rotations = [
+            [0,  1,  11, 12], 
+            [2,  11, 12, 21],   
+            [10, 11, 21, 22], 
+            [1,  11, 10, 20]    
+        ];
+        super([[0, 1, 11, 12]], 'red');
     }
 }
 
@@ -132,7 +182,8 @@ setInterval(() => game.tick(), 1000);
 
 // Controls
 document.addEventListener('keydown', e => {
-if (e.key === 'ArrowLeft') game.currentPiece.moveLeft();
-if (e.key === 'ArrowRight') game.currentPiece.moveRight();
-if (e.key === 'ArrowDown') game.currentPiece.moveDown();
+    if (e.key === 'ArrowLeft') game.currentPiece.moveLeft();
+    if (e.key === 'ArrowRight') game.currentPiece.moveRight();
+    if (e.key === 'ArrowDown') game.currentPiece.moveDown();
+    if (e.key === 'ArrowUp') game.currentPiece.rotate();
 });

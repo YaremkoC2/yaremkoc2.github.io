@@ -1,0 +1,13 @@
+#tetris-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    width: 300px;
+    border: 2px solid #444;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}

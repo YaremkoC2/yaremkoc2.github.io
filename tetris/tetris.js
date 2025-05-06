@@ -1,3 +1,9 @@
+// classic random function for arrays
+Array.prototype.random = function () 
+{
+    return this[Math.floor((Math.random()*this.length))];
+}
+
 // Set up the grid
 const grid = document.getElementById('tetris-grid');
 for (let i = 0; i < 200; i++) 
@@ -71,7 +77,7 @@ class IShape extends Tetromino
         [10, 11, 12, 13], 
         [2,  12, 22, 32],   
         [20, 21, 22, 23], 
-        [1,  10, 11, 21]    
+        [1,  11, 21, 31]    
       ];
       super(rotations, 'cyan');
     }
@@ -166,18 +172,21 @@ class ZShape extends Tetromino
     }
 }
 
+// array to pick random pieces from 
+const pieces = [IShape, JShape, LShape, OShape, SShape, TShape, ZShape];
+
 // Game class
 class Game 
 {
     constructor() 
     {
-      this.currentPiece = new TShape();
-      this.currentPiece.draw();
+        this.currentPiece = new (pieces.random())();
+        this.currentPiece.draw();
     }
   
     tick() 
     {
-      this.currentPiece.moveDown();
+        this.currentPiece.moveDown();
     }
 }
   

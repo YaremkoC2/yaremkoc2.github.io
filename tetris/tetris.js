@@ -109,7 +109,13 @@ class OShape extends Tetromino
 {
     constructor()
     {
-        super([[0, 1, 10, 11]], 'yellow');
+        const rotations = [
+            [0, 1, 10, 11], 
+            [0, 1, 10, 11],   
+            [0, 1, 10, 11], 
+            [0, 1, 10, 11]    
+        ];
+        super(rotations, 'yellow');
     }
 
     rotate()
@@ -146,7 +152,6 @@ class TShape extends Tetromino
     }
 }
   
-
 class ZShape extends Tetromino 
 {
     constructor() 
@@ -157,7 +162,7 @@ class ZShape extends Tetromino
             [10, 11, 21, 22], 
             [1,  11, 10, 20]    
         ];
-        super([[0, 1, 11, 12]], 'red');
+        super(rotations, 'red');
     }
 }
 

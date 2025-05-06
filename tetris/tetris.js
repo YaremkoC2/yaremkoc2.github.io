@@ -8,7 +8,7 @@ for (let i = 0; i < 200; i++)
 }
 const cells = Array.from(grid.children);
 
-// Base Tetromino class
+//Base Tetromino class
 class Tetromino 
 {
     constructor(shape, color) 
@@ -55,7 +55,7 @@ class Tetromino
 }
 
 // Specific Tetrominos
-class LShape extends Tetromino
+class IShape extends Tetromino
 {
     constructor()
     {
@@ -110,3 +110,29 @@ class ZShape extends Tetromino
       super([[0, 1, 11, 12]], 'red');
     }
 }
+
+// Game class
+class Game 
+{
+    constructor() 
+    {
+      this.currentPiece = new TShape();
+      this.currentPiece.draw();
+    }
+  
+    tick() 
+    {
+      this.currentPiece.moveDown();
+    }
+}
+  
+// Initialize
+const game = new Game();
+setInterval(() => game.tick(), 1000);
+
+// Controls
+document.addEventListener('keydown', e => {
+if (e.key === 'ArrowLeft') game.currentPiece.moveLeft();
+if (e.key === 'ArrowRight') game.currentPiece.moveRight();
+if (e.key === 'ArrowDown') game.currentPiece.moveDown();
+});

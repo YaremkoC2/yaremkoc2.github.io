@@ -80,6 +80,28 @@ class Tetromino
     {
         this.erase(grid);
         this.index = (this.index + 1) % this.rotations.length;
+        
+        if (this.position > 5)
+        {
+            // check if over the right edge
+            const rightEdgeCount = this.rotations[this.index].filter(i => {
+                const col = (this.position + i) % 10;
+                return col === 9;
+            }).length;
+
+            this.position -= rightEdgeCount;
+        }
+        else
+        {
+            // check if over the left edge
+            const leftEdgeCount = this.rotations[this.index].filter(i => {
+                const col = (this.position + i) % 10;
+                return col === 0;
+            }).length;
+
+            this.position += leftEdgeCount;
+        }
+
         this.draw(grid);
     }
 }

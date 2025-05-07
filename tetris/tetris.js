@@ -28,14 +28,14 @@ class Tetromino
     draw() 
     {
         this.rotations[this.index].forEach(i => {
-        cells[this.position + i].style.backgroundColor = this.color;
+            cells[this.position + i].style.backgroundColor = this.color;
         });
     }
 
     erase() 
     {
         this.rotations[this.index].forEach(i => {
-        cells[this.position + i].style.backgroundColor = '';
+            cells[this.position + i].style.backgroundColor = '';
         });
     }
 
@@ -48,6 +48,14 @@ class Tetromino
 
     moveLeft() 
     {
+        // Check if any cell would go off the left edge
+        const wouldHitLeftEdge = this.rotations[this.index].some(i => {
+            const col = (this.position + i) % 10;
+            return col === 0;
+        });
+
+        if (wouldHitLeftEdge) return;
+
         this.erase();
         this.position -= 1;
         this.draw();
@@ -55,6 +63,14 @@ class Tetromino
 
     moveRight() 
     {
+        // Check if any cell would go off the left edge
+        const wouldHitRightEdge = this.rotations[this.index].some(i => {
+            const col = (this.position + i) % 10;
+            return col === 9;
+        });
+
+        if (wouldHitRightEdge) return;
+
         this.erase();
         this.position += 1;
         this.draw();
@@ -73,13 +89,13 @@ class IShape extends Tetromino
 {
     constructor() 
     {
-      const rotations = [
-        [10, 11, 12, 13], 
-        [2,  12, 22, 32],   
-        [20, 21, 22, 23], 
-        [1,  11, 21, 31]    
-      ];
-      super(rotations, 'cyan');
+        const rotations = [
+            [10, 11, 12, 13], 
+            [2,  12, 22, 32],   
+            [20, 21, 22, 23], 
+            [1,  11, 21, 31]    
+        ];
+        super(rotations, 'cyan');
     }
 }
 
@@ -116,10 +132,7 @@ class OShape extends Tetromino
     constructor()
     {
         const rotations = [
-            [0, 1, 10, 11], 
-            [0, 1, 10, 11],   
-            [0, 1, 10, 11], 
-            [0, 1, 10, 11]    
+            [0, 1, 10, 11]  
         ];
         super(rotations, 'yellow');
     }

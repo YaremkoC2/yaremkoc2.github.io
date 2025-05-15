@@ -25,6 +25,7 @@ class Tetromino
         this.position = 4;
     }
 
+    // Draw the tetromino on the grid
     draw() 
     {
         this.rotations[this.index].forEach(i => {
@@ -32,6 +33,7 @@ class Tetromino
         });
     }
 
+    // Erase the tetromino from the grid
     erase() 
     {
         this.rotations[this.index].forEach(i => {
@@ -39,43 +41,78 @@ class Tetromino
         });
     }
 
+    // Move the tetromino down
     moveDown() 
     {
-        this.erase();
-        this.position += 10;
-        this.draw();
-    }
-
-    moveLeft() 
-    {
-        // Check if any cell would go off the left edge
-        const wouldHitLeftEdge = this.rotations[this.index].some(i => {
-            const col = (this.position + i) % 10;
-            return col === 0;
+        const willCollide = this.rotations[this.index].some(i => {
+            const newPos = this.position + i + 10;
+            return newPos >= 200 || cells[newPos].classList.contains('taken');
         });
 
-        if (wouldHitLeftEdge) return;
+        if (willCollide) 
+        {
+            this.lock();
+            return false; 
+        } 
+        else
+        {
+            this.erase();
+            this.position += 10;
+            this.draw();
+            return true;
+        }
+    }
+
+
+    // Move the tetromino left
+    moveLeft() 
+    {
+        const canMove = this.rotations[this.index].every(i => {
+            const newPos = this.position + i - 1;
+            const col = (this.position + i) % 10;
+            const newCol = newPos % 10;
+
+            return (
+                col !== 0 &&                      // not at left wall
+                newPos >= 0 &&                    // not out of bounds
+                !cells[newPos].classList.contains('taken') && // no collision
+                Math.floor((this.position + i) / 10) === Math.floor(newPos / 10) // same row
+            );
+        });
+
+        if (!canMove) return;
 
         this.erase();
         this.position -= 1;
         this.draw();
     }
 
+
+    // Move the tetromino right
     moveRight() 
     {
-        // Check if any cell would go off the left edge
-        const wouldHitRightEdge = this.rotations[this.index].some(i => {
+        const canMove = this.rotations[this.index].every(i => {
+            const newPos = this.position + i + 1;
             const col = (this.position + i) % 10;
-            return col === 9;
+            const newCol = newPos % 10;
+
+            return (
+                col !== 9 &&                      // not at right wall
+                newPos < 200 &&                   // not out of bounds
+                !cells[newPos].classList.contains('taken') && // no collision
+                Math.floor((this.position + i) / 10) === Math.floor(newPos / 10) // same row
+            );
         });
 
-        if (wouldHitRightEdge) return;
+        if (!canMove) return;
 
         this.erase();
         this.position += 1;
         this.draw();
     }
 
+
+    // Rotate the tetromino
     rotate() 
     {
         this.erase();
@@ -115,7 +152,7 @@ class Tetromino
         this.draw();
     }
 
-
+    // Check if the tetromino is in a valid position
     isValidPosition(offset = 0) 
     {
         return this.rotations[this.index].every(i => {
@@ -131,6 +168,16 @@ class Tetromino
 
             // Prevent wrapping
             return Math.abs(blockCol - baseCol) <= 4;
+        });
+    }
+
+    // Lock the tetromino in place
+    lock() 
+    {
+        this.rotations[this.index].forEach(i => {
+            const cell = cells[this.position + i];
+            cell.classList.add('taken');
+            cell.style.backgroundColor = this.color;
         });
     }
 }
@@ -247,10 +294,54 @@ class Game
         this.currentPiece = new (pieces.random())();
         this.currentPiece.draw();
     }
-  
+    
+    // Game tick
     tick() 
     {
-        this.currentPiece.moveDown();
+        const moved = this.currentPiece.moveDown();
+        if (!moved) 
+        {
+            this.clearLines();
+
+            this.currentPiece = new (pieces.random())();
+            this.currentPiece.draw();
+        }
+    }
+
+    // Check for completed lines
+    clearLines() 
+    {
+        for (let row = 0; row < 20; row++) 
+        {
+            const start = row * 10;
+            const line = cells.slice(start, start + 10);
+
+            if (line.every(cell => cell.classList.contains('taken'))) 
+            {
+                // Clear the line
+                line.forEach(cell => {
+                    cell.classList.remove('taken');
+                    cell.style.backgroundColor = '';
+                });
+
+                // Remove cleared cells from the DOM and array
+                const cleared = cells.splice(start, 10);
+
+                // Create 10 new empty cells at the top
+                const newCells = Array(10).fill(null).map(() => {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    return cell;
+                });
+
+                // Insert new cells at the beginning
+                cells.unshift(...newCells);
+
+                // Rebuild the grid DOM
+                grid.innerHTML = ''; // Clear grid
+                cells.forEach(cell => grid.appendChild(cell)); // Re-render
+            }
+        }
     }
 }
   
@@ -258,10 +349,17 @@ class Game
 const game = new Game();
 setInterval(() => game.tick(), 1000);
 
-// Controls
 document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') game.currentPiece.moveLeft();
     if (e.key === 'ArrowRight') game.currentPiece.moveRight();
-    if (e.key === 'ArrowDown') game.currentPiece.moveDown();
+    if (e.key === 'ArrowDown') 
+    {
+        const moved = game.currentPiece.moveDown();
+        if (!moved) 
+        {
+            game.currentPiece = new (pieces.random())();
+            game.currentPiece.draw();
+        }
+    }
     if (e.key === 'ArrowUp') game.currentPiece.rotate();
 });

@@ -63,7 +63,6 @@ class Tetromino
         }
     }
 
-
     // Move the tetromino left
     moveLeft() 
     {
@@ -87,7 +86,6 @@ class Tetromino
         this.draw();
     }
 
-
     // Move the tetromino right
     moveRight() 
     {
@@ -110,7 +108,6 @@ class Tetromino
         this.position += 1;
         this.draw();
     }
-
 
     // Rotate the tetromino
     rotate() 
@@ -293,6 +290,10 @@ class Game
     {
         this.currentPiece = new (pieces.random())();
         this.currentPiece.draw();
+        this.linesCleared = 0;
+        this.score = 0;
+        this.level = 1;
+        this.speed = 1000;
     }
     
     // Game tick
@@ -302,6 +303,7 @@ class Game
         if (!moved) 
         {
             this.clearLines();
+            this.updateScore();
 
             this.currentPiece = new (pieces.random())();
             this.currentPiece.draw();
@@ -311,6 +313,9 @@ class Game
     // Check for completed lines
     clearLines() 
     {
+        let numCleared = 0; // track number of cleared lines on this tick
+
+        // Check each row for completed lines
         for (let row = 0; row < 20; row++) 
         {
             const start = row * 10;
@@ -340,14 +345,42 @@ class Game
                 // Rebuild the grid DOM
                 grid.innerHTML = ''; // Clear grid
                 cells.forEach(cell => grid.appendChild(cell)); // Re-render
+
+                numCleared++;
             }
         }
+        
+        // Update score based on number of cleared lines
+        if (numCleared == 1) this.score += 100 * this.level;
+        if (numCleared == 2) this.score += 300 * this.level;
+        if (numCleared == 3) this.score += 500 * this.level;
+        if (numCleared == 4) this.score += 800 * this.level;
+
+        // Update lines cleared
+        this.linesCleared += numCleared;
+        if (this.linesCleared >= 10) 
+        {
+            this.level++;
+            this.linesCleared = this.linesCleared - 10;
+            this.speed = Math.max(50, this.speed - 50);
+            startGameLoop(); 
+        }
+    }
+
+    // Update the score display
+    updateScore() 
+    {
+        const scoreDisplay = document.getElementById('score');
+        scoreDisplay.innerText = `Score : ${this.score}`;
+        const levelDisplay = document.getElementById('level');
+        levelDisplay.innerText = `Level : ${this.level}`;
     }
 }
   
 // Initialize
+let intervalId;
 const game = new Game();
-setInterval(() => game.tick(), 1000);
+startGameLoop();
 
 document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') game.currentPiece.moveLeft();
@@ -363,3 +396,23 @@ document.addEventListener('keydown', e => {
     }
     if (e.key === 'ArrowUp') game.currentPiece.rotate();
 });
+
+// Function to start or restart the game loop
+function startGameLoop() 
+{
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(() => game.tick(), game.speed);
+}
+
+// scoring will be 
+/*
+Single	100 × level
+Double	300 × level
+Triple	500 × level
+Tetris	800 × level
+
+Level up every 10 lines cleared
+Level 1: 1000ms
+subtract 50ms for each level
+Level 20: 50ms (final)
+*/

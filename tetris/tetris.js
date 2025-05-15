@@ -76,33 +76,62 @@ class Tetromino
         this.draw();
     }
 
-    rotate()
+    rotate() 
     {
-        this.erase(grid);
+        this.erase();
+
+        const prevIndex = this.index;
         this.index = (this.index + 1) % this.rotations.length;
-        
-        if (this.position > 5)
-        {
-            // check if over the right edge
-            const rightEdgeCount = this.rotations[this.index].filter(i => {
-                const col = (this.position + i) % 10;
-                return col === 9;
-            }).length;
 
-            this.position -= rightEdgeCount;
-        }
-        else
+        // special case for IShape on the left wall and in rotation 1
+        if (this.color === 'cyan' && this.position % 10 === 8 && prevIndex === 1)
         {
-            // check if over the left edge
-            const leftEdgeCount = this.rotations[this.index].filter(i => {
-                const col = (this.position + i) % 10;
-                return col === 0;
-            }).length;
-
-            this.position += leftEdgeCount;
+            const IKicks = [0, 1, 2, 3, 4];
+            for (let kick of IKicks) 
+            {
+                if (this.isValidPosition(kick)) 
+                {
+                    this.position += kick;
+                    this.draw();
+                    return;
+                }
+            }
         }
 
-        this.draw(grid);
+        // Attempt to kick out from the wall
+        const kicks = [0, -1, 1, -2, 2];
+        for (let kick of kicks) 
+        {
+            if (this.isValidPosition(kick)) 
+            {
+                this.position += kick;
+                this.draw();
+                return;
+            }
+        }
+
+        // If none work, revert rotation
+        this.index = prevIndex;
+        this.draw();
+    }
+
+
+    isValidPosition(offset = 0) 
+    {
+        return this.rotations[this.index].every(i => {
+            const newPos = this.position + offset + i;
+
+            if (newPos < 0 || newPos >= 200 || cells[newPos].classList.contains('taken')) 
+            {
+                return false;
+            }
+
+            const baseCol = (this.position + offset) % 10;
+            const blockCol = newPos % 10;
+
+            // Prevent wrapping
+            return Math.abs(blockCol - baseCol) <= 4;
+        });
     }
 }
 

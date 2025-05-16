@@ -1,35 +1,20 @@
-// classic random function for arrays
-Array.prototype.random = function () 
-{
-    return this[Math.floor((Math.random()*this.length))];
-}
-
-// Set up the grid
-const grid = document.getElementById('tetris-grid');
-for (let i = 0; i < 200; i++) 
-{
-  const cell = document.createElement('div');
-  cell.classList.add('cell');
-  grid.appendChild(cell);
-}
-const cells = Array.from(grid.children);
-
 //Base Tetromino class
 class Tetromino 
 {
-    constructor(rotations, color) 
+    constructor(rotations, color, cells) 
     {
         this.rotations = rotations;
         this.index = 0;
         this.color = color;
         this.position = 4;
+        this.cells = cells;
     }
 
     // Draw the tetromino on the grid
     draw() 
     {
         this.rotations[this.index].forEach(i => {
-            cells[this.position + i].style.backgroundColor = this.color;
+            this.cells[this.position + i].style.backgroundColor = this.color;
         });
     }
 
@@ -37,23 +22,26 @@ class Tetromino
     erase() 
     {
         this.rotations[this.index].forEach(i => {
-            cells[this.position + i].style.backgroundColor = '';
+            this.cells[this.position + i].style.backgroundColor = '';
         });
     }
 
     // Move the tetromino down
     moveDown() 
     {
+        // Check for collision with the bottom or other pieces
         const willCollide = this.rotations[this.index].some(i => {
             const newPos = this.position + i + 10;
-            return newPos >= 200 || cells[newPos].classList.contains('taken');
+            return newPos >= 200 || this.cells[newPos].classList.contains('taken');
         });
 
+        // If it will collide, lock the tetromino in place
         if (willCollide) 
         {
             this.lock();
             return false; 
         } 
+        // Otherwise, move it down
         else
         {
             this.erase();
@@ -66,15 +54,15 @@ class Tetromino
     // Move the tetromino left
     moveLeft() 
     {
+        // Check for collision with the left wall or other pieces
         const canMove = this.rotations[this.index].every(i => {
             const newPos = this.position + i - 1;
             const col = (this.position + i) % 10;
-            const newCol = newPos % 10;
 
             return (
                 col !== 0 &&                      // not at left wall
                 newPos >= 0 &&                    // not out of bounds
-                !cells[newPos].classList.contains('taken') && // no collision
+                !this.cells[newPos].classList.contains('taken') && // no collision
                 Math.floor((this.position + i) / 10) === Math.floor(newPos / 10) // same row
             );
         });
@@ -89,15 +77,15 @@ class Tetromino
     // Move the tetromino right
     moveRight() 
     {
+        // Check for collision with the right wall or other pieces
         const canMove = this.rotations[this.index].every(i => {
             const newPos = this.position + i + 1;
             const col = (this.position + i) % 10;
-            const newCol = newPos % 10;
 
             return (
                 col !== 9 &&                      // not at right wall
                 newPos < 200 &&                   // not out of bounds
-                !cells[newPos].classList.contains('taken') && // no collision
+                !this.cells[newPos].classList.contains('taken') && // no collision
                 Math.floor((this.position + i) / 10) === Math.floor(newPos / 10) // same row
             );
         });
@@ -155,7 +143,7 @@ class Tetromino
         return this.rotations[this.index].every(i => {
             const newPos = this.position + offset + i;
 
-            if (newPos < 0 || newPos >= 200 || cells[newPos].classList.contains('taken')) 
+            if (newPos < 0 || newPos >= 200 || this.cells[newPos].classList.contains('taken')) 
             {
                 return false;
             }
@@ -172,7 +160,7 @@ class Tetromino
     lock() 
     {
         this.rotations[this.index].forEach(i => {
-            const cell = cells[this.position + i];
+            const cell = this.cells[this.position + i];
             cell.classList.add('taken');
             cell.style.backgroundColor = this.color;
         });
@@ -182,7 +170,7 @@ class Tetromino
 // Specific Tetrominos
 class IShape extends Tetromino
 {
-    constructor() 
+    constructor(cells) 
     {
         const rotations = [
             [10, 11, 12, 13], 
@@ -190,13 +178,13 @@ class IShape extends Tetromino
             [20, 21, 22, 23], 
             [1,  11, 21, 31]    
         ];
-        super(rotations, 'cyan');
+        super(rotations, 'cyan', cells);
     }
 }
 
 class JShape extends Tetromino
 {
-    constructor()
+    constructor(cells)
     {
         const rotations = [
             [0,  10, 11, 12], 
@@ -204,13 +192,13 @@ class JShape extends Tetromino
             [10, 11, 12, 22], 
             [1,  11, 21, 20]    
         ];
-        super(rotations, 'blue');
+        super(rotations, 'blue', cells);
     }
 }
 
 class LShape extends Tetromino
 {
-    constructor()
+    constructor(cells)
     {
         const rotations = [
             [2,  10, 11, 12], 
@@ -218,20 +206,21 @@ class LShape extends Tetromino
             [10, 11, 12, 20], 
             [0,  1,  11, 21]    
         ];
-        super(rotations, 'orange');
+        super(rotations, 'orange', cells);
     }
 }
 
 class OShape extends Tetromino
 {
-    constructor()
+    constructor(cells)
     {
         const rotations = [
             [0, 1, 10, 11]  
         ];
-        super(rotations, 'yellow');
+        super(rotations, 'yellow', cells);
     }
 
+    // OShape does not need to rotate
     rotate()
     {
         return;
@@ -240,7 +229,7 @@ class OShape extends Tetromino
 
 class SShape extends Tetromino
 {
-    constructor()
+    constructor(cells)
     {
         const rotations = [
             [1,  2,  10, 11], 
@@ -248,13 +237,13 @@ class SShape extends Tetromino
             [11, 12, 20, 21], 
             [0,  10, 11, 21]    
         ];
-        super(rotations, 'green');
+        super(rotations, 'green', cells );
     }
 }
 
 class TShape extends Tetromino 
 {
-    constructor() 
+    constructor(cells) 
     {
         const rotations = [
             [1,  10, 11, 12], 
@@ -262,13 +251,13 @@ class TShape extends Tetromino
             [10, 11, 12, 21], 
             [1,  10, 11, 21]    
         ];
-        super(rotations, 'purple');
+        super(rotations, 'purple', cells);
     }
 }
   
 class ZShape extends Tetromino 
 {
-    constructor() 
+    constructor(cells) 
     {
         const rotations = [
             [0,  1,  11, 12], 
@@ -276,123 +265,18 @@ class ZShape extends Tetromino
             [10, 11, 21, 22], 
             [1,  11, 10, 20]    
         ];
-        super(rotations, 'red');
+        super(rotations, 'red', cells);
     }
 }
 
-// array to pick random pieces from 
-const pieces = [IShape, JShape, LShape, OShape, SShape, TShape, ZShape];
-
-// Game class
-class Game 
-{
-    constructor() 
-    {
-        this.currentPiece = new (pieces.random())();
-        this.currentPiece.draw();
-        this.linesCleared = 0;
-        this.score = 0;
-        this.level = 1;
-        this.speed = 1000;
-    }
-    
-    // Game tick
-    tick() 
-    {
-        const moved = this.currentPiece.moveDown();
-        
-        this.clearLines();
-        this.updateScore();
-
-        if (!moved) 
-        {
-            this.currentPiece = new (pieces.random())();
-            this.currentPiece.draw();
-        }
-    }
-
-    // Check for completed lines
-    clearLines() 
-    {
-        let numCleared = 0; // track number of cleared lines on this tick
-
-        // Check each row for completed lines
-        for (let row = 0; row < 20; row++) 
-        {
-            const start = row * 10;
-            const line = cells.slice(start, start + 10);
-
-            if (line.every(cell => cell.classList.contains('taken'))) 
-            {
-                // Clear the line
-                line.forEach(cell => {
-                    cell.classList.remove('taken');
-                    cell.style.backgroundColor = '';
-                });
-
-                // Remove cleared cells from the DOM and array
-                const cleared = cells.splice(start, 10);
-
-                // Create 10 new empty cells at the top
-                const newCells = Array(10).fill(null).map(() => {
-                    const cell = document.createElement('div');
-                    cell.classList.add('cell');
-                    return cell;
-                });
-
-                // Insert new cells at the beginning
-                cells.unshift(...newCells);
-
-                // Rebuild the grid DOM
-                grid.innerHTML = ''; // Clear grid
-                cells.forEach(cell => grid.appendChild(cell)); // Re-render
-
-                numCleared++;
-            }
-        }
-        
-        // Update score based on number of cleared lines
-        if (numCleared == 1) this.score += 100 * this.level;
-        if (numCleared == 2) this.score += 300 * this.level;
-        if (numCleared == 3) this.score += 500 * this.level;
-        if (numCleared == 4) this.score += 800 * this.level;
-
-        // Update lines cleared
-        this.linesCleared += numCleared;
-        if (this.linesCleared >= 10) 
-        {
-            this.level++;
-            this.linesCleared = this.linesCleared - 10;
-            this.speed = Math.max(50, this.speed - 50);
-            startGameLoop(); 
-        }
-    }
-
-    // Update the score display
-    updateScore() 
-    {
-        const scoreDisplay = document.getElementById('score');
-        scoreDisplay.innerText = `Score : ${this.score}`;
-        const levelDisplay = document.getElementById('level');
-        levelDisplay.innerText = `Level : ${this.level}`;
-    }
-}
-  
-// Initialize
-let intervalId;
-const game = new Game();
-startGameLoop();
-
-document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') game.currentPiece.moveLeft();
-    if (e.key === 'ArrowRight') game.currentPiece.moveRight();
-    if (e.key === 'ArrowDown') game.currentPiece.moveDown();
-    if (e.key === 'ArrowUp') game.currentPiece.rotate();
-});
-
-// Function to start or restart the game loop
-function startGameLoop() 
-{
-    if (intervalId) clearInterval(intervalId);
-    intervalId = setInterval(() => game.tick(), game.speed);
-}
+// export everything
+export {
+  Tetromino,
+  IShape,
+  JShape,
+  LShape,
+  OShape,
+  SShape,
+  TShape,
+  ZShape
+};

@@ -3,11 +3,11 @@ class Tetromino
 {
     constructor(rotations, color, cells) 
     {
-        this.rotations = rotations;
-        this.index = 0;
-        this.color = color;
-        this.position = 4;
-        this.cells = cells;
+        this.rotations = rotations;  // array of shape rotations
+        this.index = 0;              // current rotation index
+        this.color = color;          // color of the tetromino
+        this.position = 4;           // starting position (4 is the middle of the grid)
+        this.cells = cells;          // reference to the grid cells
     }
 
     // Draw the tetromino on the grid

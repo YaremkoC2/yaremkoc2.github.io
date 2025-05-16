@@ -15,6 +15,7 @@ const cells = Array.from(grid.children);
 const game = new Game(cells, grid);
 game.startGameLoop();
 
+// Add event listeners for controls
 document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') game.currentPiece.moveLeft();
     if (e.key === 'ArrowRight') game.currentPiece.moveRight();

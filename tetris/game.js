@@ -15,25 +15,28 @@ class Game
 {
     constructor(cells, grid) 
     {
-        this.grid = grid;
-        this.cells = cells;
+        this.grid = grid;        // reference to the DOM grid
+        this.cells = cells;      // array of cells in the grid
+        this.linesCleared = 0;   // used for level up
+        this.score = 0;          // current score
+        this.level = 1;          // current level
+        this.speed = 1000;       // initial speed (tick rate)
+        this.intervalId = null;  // for game loop
+
+        // Initialize the game with a random piece
         this.currentPiece = new (pieces.random())(this.cells);
         this.currentPiece.draw();
-        this.linesCleared = 0;
-        this.score = 0;
-        this.level = 1;
-        this.speed = 1000;
-        this.intervalId = null;
     }
     
     // Game tick
     tick() 
     {
+        // Move the current piece down, clear lines, and update score
         const moved = this.currentPiece.moveDown();
-        
         this.clearLines();
         this.updateScore();
 
+        // If the piece can't move down, create a new piece
         if (!moved) 
         {
             this.currentPiece = new (pieces.random())(this.cells);
@@ -93,7 +96,7 @@ class Game
         {
             this.level++;
             this.linesCleared = this.linesCleared - 10;
-            this.speed = Math.max(50, this.speed - 50);
+            this.speed = Math.max(100, this.speed - 100);
             this.startGameLoop(); 
         }
     }

@@ -300,11 +300,12 @@ class Game
     tick() 
     {
         const moved = this.currentPiece.moveDown();
+        
+        this.clearLines();
+        this.updateScore();
+
         if (!moved) 
         {
-            this.clearLines();
-            this.updateScore();
-
             this.currentPiece = new (pieces.random())();
             this.currentPiece.draw();
         }
@@ -385,15 +386,7 @@ startGameLoop();
 document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') game.currentPiece.moveLeft();
     if (e.key === 'ArrowRight') game.currentPiece.moveRight();
-    if (e.key === 'ArrowDown') 
-    {
-        const moved = game.currentPiece.moveDown();
-        if (!moved) 
-        {
-            game.currentPiece = new (pieces.random())();
-            game.currentPiece.draw();
-        }
-    }
+    if (e.key === 'ArrowDown') game.currentPiece.moveDown();
     if (e.key === 'ArrowUp') game.currentPiece.rotate();
 });
 
@@ -403,16 +396,3 @@ function startGameLoop()
     if (intervalId) clearInterval(intervalId);
     intervalId = setInterval(() => game.tick(), game.speed);
 }
-
-// scoring will be 
-/*
-Single	100 × level
-Double	300 × level
-Triple	500 × level
-Tetris	800 × level
-
-Level up every 10 lines cleared
-Level 1: 1000ms
-subtract 50ms for each level
-Level 20: 50ms (final)
-*/

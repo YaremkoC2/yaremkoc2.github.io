@@ -13,7 +13,7 @@ const pieces = [IShape, JShape, LShape, OShape, SShape, TShape, ZShape];
 // Game class
 class Game 
 {
-    constructor(cells, grid) 
+    constructor(cells, grid, next) 
     {
         this.grid = grid;        // reference to the DOM grid
         this.cells = cells;      // array of cells in the grid
@@ -22,9 +22,12 @@ class Game
         this.level = 1;          // current level
         this.speed = 1000;       // initial speed (tick rate)
         this.intervalId = null;  // for game loop
+        this.next = next;        // reference to the next piece display
 
-        // Initialize the game with a random piece
-        this.currentPiece = new (pieces.random())(this.cells);
+        // Initialize the game with random pieces
+        this.nextPiece = new (pieces.random())(this.cells, this.next);
+        this.nextPiece.drawNext();
+        this.currentPiece = new (pieces.random())(this.cells, this.next);
         this.currentPiece.draw();
     }
     
@@ -39,8 +42,12 @@ class Game
         // If the piece can't move down, create a new piece
         if (!moved) 
         {
-            this.currentPiece = new (pieces.random())(this.cells);
+            // Move next piece to current and create a new next piece
+            this.currentPiece = this.nextPiece; 
             this.currentPiece.draw();
+            this.nextPiece.eraseNext();
+            this.nextPiece = new (pieces.random())(this.cells, this.next);
+            this.nextPiece.drawNext();
         }
     }
 

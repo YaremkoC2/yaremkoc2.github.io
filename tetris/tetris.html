@@ -8,9 +8,25 @@
     <script type="module" src="main.js" defer></script>
 </head>
 <body>
-    <h1>Tetris</h1>
-    <div id = "tetris-grid"></div>
-    <div id = "level">Level : 1</div>
-    <div id = "score">Score : 0</div>
+    <div id="main-container">
+        <h1>DOM Tetris</h1>
+        <div id="game-container">
+            <div id="tetris-grid"></div>
+            <div id="side-panel">
+                <div id="level">Level : 1</div>
+                <div id="score">Score : 0</div>
+
+                <div class="panel-section">
+                    <div class="panel-label">Next Piece</div>
+                    <div id="next-piece"></div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="panel-label">Held Piece</div>
+                    <div id="held-piece"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

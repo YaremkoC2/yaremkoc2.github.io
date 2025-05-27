@@ -1,13 +1,15 @@
 //Base Tetromino class
 class Tetromino 
 {
-    constructor(rotations, color, cells) 
+    constructor(rotations, color, cells, display, next) 
     {
         this.rotations = rotations;  // array of shape rotations
         this.index = 0;              // current rotation index
         this.color = color;          // color of the tetromino
         this.position = 4;           // starting position (4 is the middle of the grid)
         this.cells = cells;          // reference to the grid cells
+        this.display = display;      // array to show the tetromino for next piece
+        this.next = next;            // reference to the next piece display
     }
 
     // Draw the tetromino on the grid
@@ -18,11 +20,27 @@ class Tetromino
         });
     }
 
+    // draw the tetromino in the next piece display
+    drawNext() 
+    {
+        this.display.forEach(i => {
+            this.next[i].style.backgroundColor = this.color;
+        });
+    }
+
     // Erase the tetromino from the grid
     erase() 
     {
         this.rotations[this.index].forEach(i => {
             this.cells[this.position + i].style.backgroundColor = '';
+        });
+    }
+
+    // Erase the tetromino from the next piece display
+    eraseNext() 
+    {
+        this.display.forEach(i => {
+            this.next[i].style.backgroundColor = '';
         });
     }
 
@@ -170,7 +188,7 @@ class Tetromino
 // Specific Tetrominos
 class IShape extends Tetromino
 {
-    constructor(cells) 
+    constructor(cells, next) 
     {
         const rotations = [
             [10, 11, 12, 13], 
@@ -178,13 +196,16 @@ class IShape extends Tetromino
             [20, 21, 22, 23], 
             [1,  11, 21, 31]    
         ];
-        super(rotations, 'cyan', cells);
+
+        const display = [4, 5, 6, 7]; 
+
+        super(rotations, 'cyan', cells, display, next);
     }
 }
 
 class JShape extends Tetromino
 {
-    constructor(cells)
+    constructor(cells, next)
     {
         const rotations = [
             [0,  10, 11, 12], 
@@ -192,13 +213,16 @@ class JShape extends Tetromino
             [10, 11, 12, 22], 
             [1,  11, 21, 20]    
         ];
-        super(rotations, 'blue', cells);
+
+        const display = [4, 8, 9, 10];
+
+        super(rotations, 'blue', cells, display, next);
     }
 }
 
 class LShape extends Tetromino
 {
-    constructor(cells)
+    constructor(cells, next)
     {
         const rotations = [
             [2,  10, 11, 12], 
@@ -206,18 +230,24 @@ class LShape extends Tetromino
             [10, 11, 12, 20], 
             [0,  1,  11, 21]    
         ];
-        super(rotations, 'orange', cells);
+
+        const display = [6, 8, 9, 10];
+
+        super(rotations, 'orange', cells, display, next);
     }
 }
 
 class OShape extends Tetromino
 {
-    constructor(cells)
+    constructor(cells, next)
     {
         const rotations = [
             [0, 1, 10, 11]  
         ];
-        super(rotations, 'yellow', cells);
+
+        const display = [5, 6, 9, 10];
+
+        super(rotations, 'yellow', cells, display, next);
     }
 
     // OShape does not need to rotate
@@ -229,7 +259,7 @@ class OShape extends Tetromino
 
 class SShape extends Tetromino
 {
-    constructor(cells)
+    constructor(cells, next)
     {
         const rotations = [
             [1,  2,  10, 11], 
@@ -237,13 +267,16 @@ class SShape extends Tetromino
             [11, 12, 20, 21], 
             [0,  10, 11, 21]    
         ];
-        super(rotations, 'green', cells );
+
+        const display = [5, 6, 8, 9];
+
+        super(rotations, 'green', cells, display, next);
     }
 }
 
 class TShape extends Tetromino 
 {
-    constructor(cells) 
+    constructor(cells, next) 
     {
         const rotations = [
             [1,  10, 11, 12], 
@@ -251,13 +284,16 @@ class TShape extends Tetromino
             [10, 11, 12, 21], 
             [1,  10, 11, 21]    
         ];
-        super(rotations, 'purple', cells);
+
+        const display = [5, 8, 9, 10];
+
+        super(rotations, 'purple', cells, display, next);
     }
 }
   
 class ZShape extends Tetromino 
 {
-    constructor(cells) 
+    constructor(cells, next) 
     {
         const rotations = [
             [0,  1,  11, 12], 
@@ -265,7 +301,10 @@ class ZShape extends Tetromino
             [10, 11, 21, 22], 
             [1,  11, 10, 20]    
         ];
-        super(rotations, 'red', cells);
+
+        const display = [4, 5, 9, 10];
+
+        super(rotations, 'red', cells, display, next);
     }
 }
 

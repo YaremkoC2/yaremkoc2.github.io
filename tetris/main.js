@@ -1,18 +1,40 @@
 // import game logic
 import { Game } from './game.js';
 
-// Set up the grid
-const grid = document.getElementById('tetris-grid');
+// Set up the game grid
+const gameGrid = document.getElementById('tetris-grid');
 for (let i = 0; i < 200; i++) 
 {
   const cell = document.createElement('div');
   cell.classList.add('cell');
-  grid.appendChild(cell);
+  gameGrid.appendChild(cell);
 }
-const cells = Array.from(grid.children);
+
+// set up next piece display
+const nextGrid = document.getElementById('next-piece');
+for (let i = 0; i < 16; i++) 
+{
+  const cell = document.createElement('div');
+  cell.classList.add('cell');
+  nextGrid.appendChild(cell);
+}
+
+// set up the held piece display
+const heldGrid = document.getElementById('held-piece');
+for (let i = 0; i < 16; i++) 
+{
+  const cell = document.createElement('div');
+  cell.classList.add('cell');
+  heldGrid.appendChild(cell);
+}
+
+// get all cells from the grids
+const gameCells = Array.from(gameGrid.children);
+const nextCells = Array.from(nextGrid.children);
+const heldCells = Array.from(heldGrid.children);
   
 // Initialize
-const game = new Game(cells, grid);
+const game = new Game(gameCells, gameGrid, nextCells);
 game.startGameLoop();
 
 // Add event listeners for controls

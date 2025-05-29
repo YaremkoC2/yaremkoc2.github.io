@@ -34,7 +34,7 @@ const nextCells = Array.from(nextGrid.children);
 const heldCells = Array.from(heldGrid.children);
   
 // Initialize
-const game = new Game(gameCells, gameGrid, nextCells);
+const game = new Game(gameCells, gameGrid, nextCells, heldCells);
 game.startGameLoop();
 
 // Add event listeners for controls
@@ -43,4 +43,5 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') game.currentPiece.moveRight();
     if (e.key === 'ArrowDown') game.currentPiece.moveDown();
     if (e.key === 'ArrowUp') game.currentPiece.rotate();
+    if (e.key === ' ') game.holdPiece(); 
 });

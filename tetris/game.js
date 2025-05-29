@@ -13,7 +13,7 @@ const pieces = [IShape, JShape, LShape, OShape, SShape, TShape, ZShape];
 // Game class
 class Game 
 {
-    constructor(cells, grid, next) 
+    constructor(cells, grid, next, held) 
     {
         this.grid = grid;        // reference to the DOM grid
         this.cells = cells;      // array of cells in the grid
@@ -23,12 +23,17 @@ class Game
         this.speed = 1000;       // initial speed (tick rate)
         this.intervalId = null;  // for game loop
         this.next = next;        // reference to the next piece display
+        this.held = held;        // reference to the held piece display
+        this.heldPiece = null;   // no held piece initially
+        this.heldFlag = false;   // flag to check if a piece has been held
 
         // Initialize the game with random pieces
-        this.nextPiece = new (pieces.random())(this.cells, this.next);
-        this.nextPiece.drawNext();
-        this.currentPiece = new (pieces.random())(this.cells, this.next);
-        this.currentPiece.draw();
+        this.nextPiece = new (pieces.random())(this.cells, this.next, this.held);
+        console.log(this.nextPiece.held);
+        console.log(this.held);
+        this.nextPiece.draw(this.nextPiece.display, this.nextPiece.next);
+        this.currentPiece = new (pieces.random())(this.cells, this.next, this.held);
+        this.currentPiece.draw(this.currentPiece.rotations[this.currentPiece.index], this.currentPiece.cells, this.currentPiece.position);
     }
     
     // Game tick
@@ -44,10 +49,12 @@ class Game
         {
             // Move next piece to current and create a new next piece
             this.currentPiece = this.nextPiece; 
-            this.currentPiece.draw();
-            this.nextPiece.eraseNext();
-            this.nextPiece = new (pieces.random())(this.cells, this.next);
-            this.nextPiece.drawNext();
+            this.currentPiece.draw(this.currentPiece.rotations[this.currentPiece.index], this.currentPiece.cells, this.currentPiece.position);
+            this.nextPiece.erase(this.nextPiece.display, this.nextPiece.next);
+            this.nextPiece = new (pieces.random())(this.cells, this.next, this.held);
+            this.nextPiece.draw(this.nextPiece.display, this.nextPiece.next);
+
+            this.heldFlag = false; // reset held flag for next piece
         }
     }
 
@@ -102,7 +109,7 @@ class Game
         if (this.linesCleared >= 10) 
         {
             this.level++;
-            this.linesCleared = this.linesCleared - 10;
+            this.linesCleared -= 10;
             this.speed = Math.max(100, this.speed - 100);
             this.startGameLoop(); 
         }
@@ -122,6 +129,46 @@ class Game
     {
         if (this.intervalId) clearInterval(this.intervalId);
         this.intervalId = setInterval(() => this.tick(), this.speed);
+    }
+
+    // method to hold the current piece
+    holdPiece() 
+    {
+        if (this.heldFlag) return; // can't hold again until next piece is placed
+
+        this.currentPiece.erase(this.currentPiece.rotations[this.currentPiece.index], this.currentPiece.cells, this.currentPiece.position);
+
+        if (this.heldPiece) 
+        {
+            this.heldPiece.erase(this.heldPiece.display, this.held);
+
+            // Swap current piece with held piece
+            const temp = this.currentPiece;
+            this.currentPiece = this.heldPiece;
+            this.heldPiece = temp;
+            this.heldPiece.draw(this.heldPiece.display, this.heldPiece.held);
+
+            // reset held piece position and index
+            this.heldPiece.position = 4; // reset to starting position
+            this.heldPiece.index = 0; // reset rotation index
+        } 
+        else 
+        {
+            // If no held piece, just set the current piece as held
+            this.nextPiece.erase(this.nextPiece.display, this.nextPiece.next);
+
+            this.heldPiece = this.currentPiece;
+            this.heldPiece.draw(this.heldPiece.display, this.heldPiece.held);
+
+            this.currentPiece = this.nextPiece;
+            this.nextPiece = new (pieces.random())(this.cells, this.next, this.held);
+            this.nextPiece.draw(this.nextPiece.display, this.nextPiece.next);
+        }
+  
+        this.currentPiece.draw(this.currentPiece.rotations[this.currentPiece.index], this.currentPiece.cells, this.currentPiece.position);
+
+        // Set flag to prevent holding again until next piece is placed
+        this.heldFlag = true;
     }
 }
 

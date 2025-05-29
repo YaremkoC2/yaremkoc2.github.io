@@ -1,17 +1,17 @@
-/* Colour palette - beige: #F3F3E0  Dark Blue: #133E87 Med Blue: #608BC1 Light Blue: CBDCEB*/
+/* Colour palette - Watermelon: #FF6B6B Golden Yellow: #FFD93D Mint Green: #6BCB77 Slate Navy: #2B2E4A Background: #FAF9F6 */
 /* Import Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-body{
-    background-color: #F3F3E0;
+/* Mobile first styling */
+body {
+    background-color: #FAF9F6;
 }
 
 .title a {
     font-family: 'Bebas Neue', sans-serif;
     text-decoration: none;
-    color: #133E87;
+    color: #2B2E4A;
     letter-spacing: 0.05em;
 }
 
@@ -20,7 +20,7 @@ body{
     justify-content: center;
     gap: 20px;
     padding: 10px 0;
-    background-color: #CBDCEB;
+    background: linear-gradient(90deg, #FFD93D, #FF6B6B);
     flex-wrap: wrap;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -30,7 +30,7 @@ body{
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: #133E87;
+    color: #2B2E4A;
     padding: 10px;
     transition: transform 0.2s, box-shadow 0.2s;
     border-radius: 8px;
@@ -38,11 +38,11 @@ body{
 
 .navBox:hover {
     transform: scale(1.05);
-    background-color: #608BC1;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, #6BCB77, #FFD93D);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.navBox p{
+.navBox p {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     margin-top: 5px;
@@ -53,37 +53,40 @@ body{
     height: 32px;
 }
 
-p{
+p {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
+    color: #2B2E4A;
 }
 
 h3, h4 {
     font-family: "Poppins", sans-serif;
     font-weight: 600;
-    border-bottom: 2px solid #133E87;
+    border-bottom: 2px solid #FF6B6B;
     padding-bottom: 0.5rem;
-    color: #133E87;
+    color: #2B2E4A;
 }
 
 .about-box {
-    border-left: 6px solid #133E87;
+    border-left: 6px solid #FF6B6B;
     padding: 1rem;
     border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-    background-color: #CBDCEB;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    background-color: #FFF1E0;
+    color: #2B2E4A;
 }
 
 .project-box {
-    border-left: 6px solid #133E87;
+    border-left: 6px solid #FF6B6B;
     padding: 1rem;
     border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-    background-color: #CBDCEB;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    background-color: #FFF1E0;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    color: #2B2E4A;
 }
 
 .project-media {
@@ -112,14 +115,16 @@ h3, h4 {
 .project-description {
     font-size: 1rem;
     line-height: 1.5;
+    color: #2B2E4A;
 }
 
 .project-description h4 {
     margin-top: 0;
-    color: #133E87;
+    color: #FF6B6B;
 }
 
-@media screen and (min-width : 800px) {
+/* Styling for desktops */
+@media screen and (min-width: 800px) {
     .about,
     .projects {
         display: grid;

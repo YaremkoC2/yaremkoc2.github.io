@@ -39,14 +39,16 @@ class Game
     // Game tick
     tick() 
     {
-        // Move the current piece down, clear lines, and update score
+        // Move the current piece down, check for game over, clear lines, and update score 
         const moved = this.currentPiece.moveDown();
+        this.checkGameOver();
         this.clearLines();
         this.updateScore();
 
         // If the piece can't move down, create a new piece
-        if (!moved) 
+        if (!moved)
         {
+
             // Move next piece to current and create a new next piece
             this.currentPiece = this.nextPiece; 
             this.currentPiece.draw(this.currentPiece.rotations[this.currentPiece.index], this.currentPiece.cells, this.currentPiece.position);
@@ -169,6 +171,17 @@ class Game
 
         // Set flag to prevent holding again until next piece is placed
         this.heldFlag = true;
+    }
+
+    // check for game over
+    checkGameOver() 
+    {
+        // If the top row has any taken cells, game over
+        if (this.cells.slice(0, 10).some(cell => cell.classList.contains('taken'))) 
+        {
+            clearInterval(this.intervalId);
+            alert('Game Over! Your score: ' + this.score);
+        }
     }
 }
 

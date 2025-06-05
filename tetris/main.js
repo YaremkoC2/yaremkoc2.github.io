@@ -1,4 +1,4 @@
-// import game logic
+// import game logic 
 import { Game } from './game.js';
 
 // Set up the game grid

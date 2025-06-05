@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tetris Mini</title>
+  <link rel="stylesheet" href="tetris.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #1e1e1e;
+    }
+    #tetris-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(10, 1fr);
+      gap: 1px;
+      width: 100%;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+    .cell {
+      background-color: #222;
+      width: 100%;
+      aspect-ratio: 1;
+    }
+    .filled {
+      background-color: #6BCB77;
+    }
+  </style>
+  <script type="module" src="embed.js" defer></script>
+</head>
+<body>
+  <div id="tetris-grid"></div>
+</body>
+</html>

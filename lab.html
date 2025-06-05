@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cole Yaremko | Lab</title>
+    <link rel="stylesheet" href="css/pageStyle.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav class="navBar">
+            <h1 class="title"><a href="index.html">Cole Yaremko</a></h1>
+            
+            <div class="navBox" id="projects" data-link="projects.html">
+                <img src="img/code.png" alt="code.png" class="navImg">
+                <p>Projects</p>
+            </div>
+
+            <div class="navBox" id="github" data-link="https://github.com/YaremkoC2">
+                <img src="img/github.png" alt="github.png" class="navImg">
+                <p>GitHub</p>
+            </div>
+
+            <div class="navBox" id="resume">
+                <img src="img/resume.png" alt="resume.png" class="navImg">
+                <p>Resume</p>
+            </div>
+
+            <div class="navBox" id="linkedin" data-link="https://linkedin.com/in/cole-yaremko-562261334">
+                <img src="img/LinkedIn.png" alt="LinkedIn.png" class="navImg">
+                <p>LinkedIn</p>
+            </div>
+
+            <div class="navBox" id="about" data-link="about.html">
+                <img src="img/user.png" alt="about.png" class="navImg">
+                <p>About Me</p>
+            </div>
+        </nav>
+    </header>
+
+    <main class="projects">
+        <h3>Lab</h3>
+
+        <div class="project-box">
+            <div class="project-description">
+                <h4>What is the Lab?</h4>
+                <p>
+                    The Lab is a space for experiments. Small, interactive, or unfinished ideas that I'm playing with.
+                    Unlike the main Projects section, these aren't polished or fully built out, but some of these may grow into full projects.
+                </p>
+            </div>
+        </div>
+
+        <div class="project-box">
+            <div class="project-media">
+                <div style="position: relative; width: 100%; padding-top: 100%; overflow: hidden; border-radius: 8px;">
+                    <iframe 
+                        src="tetris/embed.html" 
+                        title="Mini Tetris"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;">
+                    </iframe>
+                </div>
+            </div>
+            <div class="project-description">
+                <h4>DOM Tetris</h4>
+                <p>
+                    A Tetris clone built directly in the DOM with HTML, CSS, and JavaScript. It's a fun way to explore
+                    rendering logic, collision detection, and game loop timing. It's currently in a somewhat functional state, but still needs some polish.
+                </p>
+                <p>
+                    <a href="tetris/tetris.html" target="_blank" style="color: #FF6B6B; text-decoration: underline;">Open Full Game ↗</a>
+                </p>
+            </div>
+        </div>
+
+    </main>
+</body>
+</html>

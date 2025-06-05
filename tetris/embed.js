@@ -9,10 +9,8 @@ for (let i = 0; i < 100; i++) {
 const cells = Array.from(grid.children);
 
 //Base Tetromino class
-class Tetromino 
-{
-    constructor(rotations, color, cells) 
-    {
+class Tetromino {
+    constructor(rotations, color, cells) {
         this.rotations = rotations;  // array of shape rotations
         this.index = 0;              // current rotation index
         this.color = color;          // color of the tetromino
@@ -21,24 +19,21 @@ class Tetromino
     }
 
     // General-purpose draw function
-    draw(offsets, targetCells, position = 0) 
-    {
+    draw(offsets, targetCells, position = 0) {
         offsets.forEach(i => {
             targetCells[position + i].style.backgroundColor = this.color;
         });
     }
 
     // General-purpose erase function
-    erase(offsets, targetCells, position = 0) 
-    {
+    erase(offsets, targetCells, position = 0) {
         offsets.forEach(i => {
             targetCells[position + i].style.backgroundColor = '';
         });
     }
 
     // Move the tetromino down
-    moveDown() 
-    {
+    moveDown() {
         // Check for collision with the bottom or other pieces
         const willCollide = this.rotations[this.index].some(i => {
             const newPos = this.position + i + 10;
@@ -46,14 +41,10 @@ class Tetromino
         });
 
         // If it will collide, lock the tetromino in place
-        if (willCollide) 
-        {
+        if (willCollide) {
             this.lock();
             return false; 
-        } 
-        // Otherwise, move it down
-        else
-        {
+        } else {  // Otherwise, move it down
             this.erase(this.rotations[this.index], this.cells, this.position);
             this.position += 10;
             this.draw(this.rotations[this.index], this.cells, this.position);
@@ -62,8 +53,7 @@ class Tetromino
     }
 
     // Lock the tetromino in place
-    lock() 
-    {
+    lock() {
         this.rotations[this.index].forEach(i => {
             const cell = this.cells[this.position + i];
             cell.classList.add('taken');
@@ -73,93 +63,71 @@ class Tetromino
 }
 
 // Specific Tetrominos
-class IShape extends Tetromino
-{
-    constructor(cells) 
-    {
+class IShape extends Tetromino{
+    constructor(cells) {
         const rotations = [
             [10, 11, 12, 13]  
         ];
-
         super(rotations, 'cyan', cells);
     }
 }
 
-class JShape extends Tetromino
-{
-    constructor(cells)
-    {
+class JShape extends Tetromino{
+    constructor(cells){
         const rotations = [
             [0,  10, 11, 12]   
         ];
-
         super(rotations, 'blue', cells);
     }
 }
 
-class LShape extends Tetromino
-{
-    constructor(cells, next)
-    {
+class LShape extends Tetromino{
+    constructor(cells) {
         const rotations = [
             [2,  10, 11, 12]   
         ];
-
         super(rotations, 'orange', cells);
     }
 }
 
-class OShape extends Tetromino
-{
-    constructor(cells)
-    {
+class OShape extends Tetromino {
+    constructor(cells) {
         const rotations = [
             [0, 1, 10, 11]  
         ];
-
         super(rotations, 'yellow', cells);
     }
 }
 
-class SShape extends Tetromino
-{
-    constructor(cells)
-    {
+class SShape extends Tetromino {
+    constructor(cells) {
         const rotations = [
             [1,  2,  10, 11] 
         ];
-
         super(rotations, 'green', cells);
     }
 }
 
-class TShape extends Tetromino 
-{
-    constructor(cells) 
-    {
+class TShape extends Tetromino {
+    constructor(cells) {
         const rotations = [
             [1,  10, 11, 12]  
         ];
-
         super(rotations, 'purple', cells);
     }
 }
   
-class ZShape extends Tetromino 
-{
-    constructor(cells) 
-    {
+class ZShape extends Tetromino {
+    constructor(cells) {
         const rotations = [
             [0,  1,  11, 12]   
         ];
-
         super(rotations, 'red', cells);
     }
 }
 
 // classic random function for arrays
-Array.prototype.random = function () 
-{
+Array.prototype.random = function () {
     return this[Math.floor((Math.random()*this.length))];
 }
 
@@ -167,10 +135,8 @@ Array.prototype.random = function ()
 const pieces = [IShape, JShape, LShape, OShape, SShape, TShape, ZShape];
 
 // Game class
-class Game 
-{
-    constructor(cells, grid) 
-    {
+class Game {
+    constructor(cells, grid) {
         this.grid = grid;            // reference to the DOM grid
         this.cells = cells;          // array of cells in the grid
         this.speed = 300;            // initial speed (tick rate)
@@ -183,8 +149,7 @@ class Game
     }
 
     // Clear all cells: remove background color and 'taken' class
-    clearBoard() 
-    {
+    clearBoard() {
         this.cells.forEach(cell => {
         cell.style.backgroundColor = '';
         cell.classList.remove('taken');
@@ -192,18 +157,15 @@ class Game
     }
     
     // Game tick
-    tick() 
-    {
+    tick() {
         // Move the current piece down, check for game over, clear lines, and update score 
         const moved = this.currentPiece.moveDown();
 
         // If the piece can't move down, create a new piece
-        if (!moved)
-        {
+        if (!moved) {
+            // increment the count of locked pieces and reset if we have 4 
             this.lockedPiecesCount++;
-
-            if (this.lockedPiecesCount >= 4) 
-            {
+            if (this.lockedPiecesCount >= 4) {
                 this.clearBoard();
                 this.lockedPiecesCount = 0;
             }
@@ -215,13 +177,12 @@ class Game
     }
 
     // method to start or restart the game loop
-    startGameLoop() 
-    {
+    startGameLoop() {
         if (this.intervalId) clearInterval(this.intervalId);
         this.intervalId = setInterval(() => this.tick(), this.speed);
     }
 }
 
-// Fill random cells for demo
+// start the loop
 const game = new Game(cells, grid);
 game.startGameLoop();

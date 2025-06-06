@@ -34,8 +34,36 @@ const nextCells = Array.from(nextGrid.children);
 const heldCells = Array.from(heldGrid.children);
   
 // Initialize
-const game = new Game(gameCells, gameGrid, nextCells, heldCells);
-game.startGameLoop();
+let game;
+
+// Hide game initially
+document.getElementById('game-container').style.display = 'none';
+
+// Start game when button is clicked
+document.getElementById('start-btn').addEventListener('click', () => {
+    document.getElementById('game-container').style.display = 'flex';
+    if (!game) {
+        game = new Game(gameCells, gameGrid, nextCells, heldCells);
+    }
+    game.startGameLoop();
+});
+
+// Modal functionality
+const modal = document.getElementById('modal');
+const controlsBtn = document.getElementById('controls-btn');
+const closeModal = document.getElementById('close-modal');
+
+controlsBtn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+});
+
+closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+});
 
 // Add event listeners for controls
 document.addEventListener('keydown', e => {

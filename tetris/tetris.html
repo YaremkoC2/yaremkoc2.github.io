@@ -10,6 +10,12 @@
 <body>
     <div id="main-container">
         <h1>DOM Tetris</h1>
+
+        <div id="button-panel">
+            <button id="start-btn">Start Game</button>
+            <button id="controls-btn">Controls / Rules</button>
+        </div>
+
         <div id="game-container">
             <div id="tetris-grid"></div>
             <div id="side-panel">
@@ -26,6 +32,39 @@
                     <div id="held-piece"></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-modal">&times;</span>
+            <h2>Controls & Rules</h2>
+
+            <h3>Controls</h3>
+            <ul>
+                <li><strong>←</strong> Move Left</li>
+                <li><strong>→</strong> Move Right</li>
+                <li><strong>↓</strong> Move Down</li>
+                <li><strong>↑</strong> Rotate</li>
+                <li><strong>Space</strong> Hold Piece</li>
+            </ul>
+
+            <h3>Scoring</h3>
+            <ul>
+                <li>Clear 1 Line: <strong>100 x Level</strong> points</li>
+                <li>Clear 2 Lines: <strong>300 x Level</strong> points</li>
+                <li>Clear 3 Lines: <strong>500 x Level</strong> points</li>
+                <li>Clear 4 Lines (Tetris): <strong>800 x Level</strong> points</li>
+            </ul>
+
+            <h3>Leveling</h3>
+            <ul>
+                <li>Level increases every <strong>10 lines cleared</strong></li>
+                <li>Each level increases game speed (faster piece drop)</li>
+                <li>Minimum speed is capped at <strong>level 10</strong></li>
+            </ul>
+
+            <p>Use the hold and next piece panels to strategize! Try to build up for big clears to maximize points.</p>
         </div>
     </div>
 </body>

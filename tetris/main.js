@@ -1,6 +1,10 @@
 // import game logic 
 import { Game } from './game.js';
 
+// Initialize
+let game;
+document.getElementById('game-container').style.display = 'none';
+
 // Set up the game grid
 const gameGrid = document.getElementById('tetris-grid');
 for (let i = 0; i < 200; i++) 
@@ -32,12 +36,6 @@ for (let i = 0; i < 16; i++)
 const gameCells = Array.from(gameGrid.children);
 const nextCells = Array.from(nextGrid.children);
 const heldCells = Array.from(heldGrid.children);
-  
-// Initialize
-let game;
-
-// Hide game initially
-document.getElementById('game-container').style.display = 'none';
 
 // Start game when button is clicked
 document.getElementById('start-btn').addEventListener('click', () => {

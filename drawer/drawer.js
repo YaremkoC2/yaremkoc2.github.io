@@ -167,8 +167,9 @@ function undoSeg(){
         lineStack.at(-1).removeLast();
         Render();
 
-        if (llSegs.Count === 0) {
+        if (llSegs.Count === 1) {
             lineStack.pop();
+            llSegs = lineStack.at(-1) || new LinkedList();
             Render();
         }
     }

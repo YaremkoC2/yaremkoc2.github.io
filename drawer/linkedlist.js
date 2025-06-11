@@ -50,6 +50,24 @@ class LinkedList {
         }
     }
 
+    removeLast() {
+        if (!this.head) return;
+
+        if (this.head.next === null) {
+            this.head = null;
+            this.count--;
+            return;
+        }
+
+        let node = this.head;
+        while (node.next && node.next.next) {
+            node = node.next;
+        }
+
+        node.next = null;
+        this.count--;
+    }
+
     get Count() {
         return this.count;
     }

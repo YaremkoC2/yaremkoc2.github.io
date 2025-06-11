@@ -69,8 +69,54 @@ canvas.addEventListener('mousemove', (e) => {
     }
 });
 
+// Touch start
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevent scrolling
+
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const pos = new Point(touch.clientX - rect.left, touch.clientY - rect.top);
+
+    if (!drawing) {
+        drawing = true;
+        mousePos = pos;
+        llSegs = new LinkedList();
+        currentPath = new Path2D();
+        currentPath.moveTo(pos.x, pos.y);
+        lineStack.push(llSegs);
+    }
+}, { passive: false });
+
+// Touch end
+canvas.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    drawing = false;
+}, { passive: false });
+
+// Touch move
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+
+    if (!drawing) return;
+
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const pos = new Point(touch.clientX - rect.left, touch.clientY - rect.top);
+
+    if (Math.hypot(pos.x - mousePos.x, pos.y - mousePos.y) < 2) return;
+
+    const alphaValue = parseInt(alpha.value) / 255.0;
+    const lineSeg = new LineSeg(mousePos, pos, parseInt(thickness.value), alphaValue, color.value);
+    llSegs.addLast(lineSeg);
+
+    Render();
+    mousePos = pos;
+}, { passive: false });
+
 //assign the reduce complexity function to a button
 document.getElementById('reduce').addEventListener('click', () => reduceComplexity(llSegs));
+document.getElementById('undoLine').addEventListener('click', () => undoLine());
+document.getElementById('undoSeg').addEventListener('click', () => undoSeg());
 
 // function to reduce complexity of the linked list
 function reduceComplexity(linkedList) {
@@ -102,6 +148,29 @@ function reduceComplexity(linkedList) {
         }
 
         Render();
+    }
+}
+
+// Function to undo the last drawn line
+function undoLine() {
+    if (lineStack.length > 0) {
+        lineStack.pop();
+        Render();
+    }
+
+}
+
+// function remove the last segment from the current linked list
+function undoSeg(){
+    if (lineStack.at(-1).Count > 0) {
+        
+        lineStack.at(-1).removeLast();
+        Render();
+
+        if (llSegs.Count === 0) {
+            lineStack.pop();
+            Render();
+        }
     }
 }
 

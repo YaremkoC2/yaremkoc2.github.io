@@ -155,6 +155,7 @@ function reduceComplexity(linkedList) {
 function undoLine() {
     if (lineStack.length > 0) {
         lineStack.pop();
+        llSegs = lineStack.at(-1) || new LinkedList();
         Render();
     }
 

@@ -17,6 +17,7 @@ let mousePos = new Point(0, 0);
 let thickness = document.getElementById('thickness');
 let alpha = document.getElementById('alpha');
 let color = document.getElementById('colorPicker');
+let lineCount = document.getElementById('segmentCount');
 
 // Keep the canvas size responsive
 function resizeCanvas() {
@@ -72,10 +73,12 @@ document.getElementById('reduce').addEventListener('click', () => reduceComplexi
 
 // function to reduce complexity of the linked list
 function reduceComplexity(linkedList) {
-    if (linkedList.Count > 1) {
+    if (linkedList.Count > 2) {
         let scan = linkedList.First;
 
         while (scan !== null && scan.next !== null) {
+            if (scan.next === null) break;
+
             const first = scan.value;
             const second = scan.next.value;
 
@@ -146,4 +149,20 @@ function Render() {
     });
 
     ctx.globalAlpha = 1.0;
+    CountLines();
+}
+
+// fucntion to count the number of segments and lines
+function CountLines() {
+    let totalSegments = 0;
+    let totalLines = 0;
+
+    lineStack.forEach(ll => {
+        totalSegments += ll.Count;
+        if (ll.Count > 0) {
+            totalLines++;
+        }
+    });
+
+    lineCount.textContent = `Segments: ${totalSegments}, Lines: ${totalLines}`;
 }

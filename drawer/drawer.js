@@ -6,6 +6,7 @@ import { LineSeg, Point } from './lines.js';
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 ctx.lineCap = 'round';
+ctx.lineJoin = 'round';
 let currentPath = new Path2D();
 
 //initialize the drawing settings
@@ -55,23 +56,13 @@ canvas.addEventListener('mousemove', (e) => {
     let pos = new Point(e.offsetX, e.offsetY);
 
     if (drawing) {
-        // Optional: Add a distance check to reduce over-segmentation
         if (Math.hypot(pos.x - mousePos.x, pos.y - mousePos.y) < 2) return;
 
         let alphaValue = parseInt(alpha.value) / 255.0;
         let lineSeg = new LineSeg(mousePos, pos, parseInt(thickness.value), alphaValue, color.value);
         llSegs.addLast(lineSeg);
 
-        // Add to path
-        currentPath.lineTo(pos.x, pos.y);
-
-        // Redraw everything
-        ctx.lineWidth = lineSeg.thickness;
-        ctx.strokeStyle = lineSeg.color;
-        ctx.globalAlpha = lineSeg.alpha;
-        ctx.stroke(currentPath);
-        ctx.globalAlpha = 1.0;
-
+        Render();
         mousePos = pos;
     }
 });

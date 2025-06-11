@@ -66,7 +66,6 @@ canvas.addEventListener('mousemove', (e) => {
         currentPath.lineTo(pos.x, pos.y);
 
         // Redraw everything
-        //ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.lineWidth = lineSeg.thickness;
         ctx.strokeStyle = lineSeg.color;
         ctx.globalAlpha = lineSeg.alpha;
@@ -116,19 +115,41 @@ function Render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     lineStack.forEach(ll => {
-        let scan = ll.First;
+        if (ll.Count === 0) return;
+
         ctx.beginPath();
 
+        // Collect points from linked list segments
+        const points = [];
+        let scan = ll.First;
         while (scan !== null) {
-            const seg = scan.value;
-            ctx.lineWidth = seg.thickness;
-            ctx.strokeStyle = seg.color;
-            ctx.globalAlpha = seg.alpha;
-
-            ctx.moveTo(seg.startPoint.x, seg.startPoint.y);
-            ctx.lineTo(seg.endPoint.x, seg.endPoint.y);
+            points.push(scan.value.startPoint);
             scan = scan.next;
         }
+        // Add the last segment’s endPoint
+        if (ll.Last) {
+            points.push(ll.Last.value.endPoint);
+        }
+
+        if (points.length < 2) return;
+
+        // Start path at first point
+        ctx.moveTo(points[0].x, points[0].y);
+
+        // Use quadratic Bezier curve to smooth the path
+        for (let i = 1; i < points.length - 1; i++) {
+            const xc = (points[i].x + points[i + 1].x) / 2;
+            const yc = (points[i].y + points[i + 1].y) / 2;
+            ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+        }
+        // Curve to the last point
+        ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+
+        // Style using the first segment’s style as example (adjust if needed)
+        const firstSeg = ll.First.value;
+        ctx.lineWidth = firstSeg.thickness;
+        ctx.strokeStyle = firstSeg.color;
+        ctx.globalAlpha = firstSeg.alpha;
 
         ctx.stroke();
     });

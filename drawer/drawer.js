@@ -23,6 +23,7 @@ let lineCount = document.getElementById('segmentCount');
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    Render();
 }
 
 window.addEventListener('resize', resizeCanvas);

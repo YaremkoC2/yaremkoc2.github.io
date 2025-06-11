@@ -28,11 +28,42 @@ html, body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     z-index: 10;
     font-family: sans-serif;
+    width: 200px;
 }
 
 #controls label,
 #controls button,
 #controls div {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Inputs inside labels should stretch uniformly */
+#controls input[type="range"],
+#controls input[type="color"] {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+/* Style all buttons consistently */
+#controls button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: none;
+    background-color: #007acc;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#controls button:hover:not(:disabled) {
+    background-color: #005fa3;
+}
+
+#controls button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }

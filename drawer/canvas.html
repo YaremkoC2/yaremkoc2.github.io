@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing App</title>
+    <link rel="stylesheet" href="drawer.css">
+    <script src="drawer.js" defer></script>
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico?">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="controls">
+        <label>Color: <input type="color" id="colorPicker"></label>
+        <label>Thickness: <input type="range" id="thickness" min="1" max="20" value="5"></label>
+        <button id="undoLine">Undo Line</button>
+        <button id="undoSeg">Undo Segment</button>
+        <button id="reduce">Reduce</button>
+        <div id="segmentCount">0 lines, 0 total segments</div>
+    </div>
+</body>
+</html>

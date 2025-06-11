@@ -1,0 +1,38 @@
+/* Make canvas fill the screen */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+#canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: aliceblue;
+    z-index: 0;
+}
+
+/* Floating controls box */
+#controls {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 10;
+    font-family: sans-serif;
+}
+
+#controls label,
+#controls button,
+#controls div {
+    display: block;
+    margin-bottom: 0.5rem;
+}

@@ -27,6 +27,7 @@ function resizeCanvas() {
 }
 
 window.addEventListener('resize', resizeCanvas);
+loadLines();
 resizeCanvas();
 
 // Event handler for mouse down
@@ -50,6 +51,7 @@ canvas.addEventListener('mouseup', (e) => {
     if (drawing) {
         drawing = false;
         mousePos = pos;
+        saveLines();
     }
 });
 
@@ -91,6 +93,7 @@ canvas.addEventListener('touchstart', (e) => {
 canvas.addEventListener('touchend', (e) => {
     e.preventDefault();
     drawing = false;
+    saveLines();
 }, { passive: false });
 
 // Touch move
@@ -148,6 +151,7 @@ function reduceComplexity(linkedList) {
         }
 
         Render();
+        saveLines();
     }
 }
 
@@ -157,8 +161,8 @@ function undoLine() {
         lineStack.pop();
         llSegs = lineStack.at(-1) || new LinkedList();
         Render();
+        saveLines();
     }
-
 }
 
 // function remove the last segment from the current linked list
@@ -166,13 +170,14 @@ function undoSeg(){
     if (lineStack.at(-1).Count > 0) {
         
         lineStack.at(-1).removeLast();
-        Render();
 
         if (llSegs.Count === 1) {
             lineStack.pop();
             llSegs = lineStack.at(-1) || new LinkedList();
-            Render();
         }
+
+        Render();
+        saveLines();
     }
 }
 
@@ -237,4 +242,40 @@ function CountLines() {
     });
 
     lineCount.textContent = `Segments: ${totalSegments}, Lines: ${totalLines}`;
+}
+
+// function to save the lines to local storage
+function saveLines() {
+    const serializableStack = lineStack.map(linkedList =>
+        [...linkedList].map(seg => ({
+            start: seg._startPoint,
+            end: seg._endPoint,
+            thickness: seg._thickness,
+            alpha: seg._alpha,
+            color: seg._color
+        }))
+    );
+
+    localStorage.setItem('drawnLines', JSON.stringify(serializableStack));
+}
+
+// function to load the lines from local storage
+function loadLines() {
+    const data = localStorage.getItem('drawnLines');
+    if (!data) return [];
+
+    const parsed = JSON.parse(data);
+    return parsed.map(segList => {
+        const ll = new LinkedList();
+        segList.forEach(seg => {
+            ll.addLast(new LineSeg(
+                seg.start,
+                seg.end,
+                seg.thickness,
+                seg.alpha,
+                seg.color
+            ));
+        });
+        return ll;
+    });
 }

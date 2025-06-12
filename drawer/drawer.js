@@ -10,7 +10,7 @@ ctx.lineJoin = 'round';
 let currentPath = new Path2D();
 
 //initialize the drawing settings
-const lineStack = [];
+const lineStack = loadLines();
 let llSegs;
 let drawing = false;
 let mousePos = new Point(0, 0);
@@ -27,7 +27,6 @@ function resizeCanvas() {
 }
 
 window.addEventListener('resize', resizeCanvas);
-loadLines();
 resizeCanvas();
 
 // Event handler for mouse down

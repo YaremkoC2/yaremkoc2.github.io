@@ -18,6 +18,9 @@ let thickness = document.getElementById('thickness');
 let alpha = document.getElementById('alpha');
 let color = document.getElementById('colorPicker');
 let lineCount = document.getElementById('segmentCount');
+const toggleTab = document.getElementById('toggleTab');
+const controlWrapper = document.getElementById('controlWrapper');
+let controlsVisible = true;
 
 // Keep the canvas size responsive
 function resizeCanvas() {
@@ -28,6 +31,19 @@ function resizeCanvas() {
 
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
+
+// event handler for the toggle tab
+toggleTab.addEventListener('click', () => {
+  controlsVisible = !controlsVisible;
+
+  if (controlsVisible) {
+    controlWrapper.style.transform = 'translateX(0)';
+    toggleTab.textContent = '↓';
+  } else {
+    controlWrapper.style.transform = 'translateX(-93%)';
+    toggleTab.textContent = '↑';
+  }
+});
 
 // Event handler for mouse down
 canvas.addEventListener('mousedown', (e) => {
@@ -115,10 +131,11 @@ canvas.addEventListener('touchmove', (e) => {
     mousePos = pos;
 }, { passive: false });
 
-//assign the reduce complexity function to a button
+//assign the buttons to their respective functions
 document.getElementById('reduce').addEventListener('click', () => reduceComplexity(llSegs));
 document.getElementById('undoLine').addEventListener('click', () => undoLine());
 document.getElementById('undoSeg').addEventListener('click', () => undoSeg());
+document.getElementById('clear').addEventListener('click', () => { clearCanvas(); });
 
 // function to reduce complexity of the linked list
 function reduceComplexity(linkedList) {
@@ -178,6 +195,14 @@ function undoSeg(){
         Render();
         saveLines();
     }
+}
+
+// function to clear the canvas
+function clearCanvas() {
+    lineStack.length = 0; // Clear the stack
+    llSegs = new LinkedList(); // Reset current linked list
+    Render(); // Redraw the canvas
+    saveLines(); // Save the cleared state
 }
 
 // Function to render the entire canvas

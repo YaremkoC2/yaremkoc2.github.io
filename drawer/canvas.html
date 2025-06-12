@@ -9,16 +9,20 @@
     <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico?">
 </head>
 <body>
-    <canvas id="canvas"></canvas>
+  <canvas id="canvas"></canvas>
 
+  <div id="controlWrapper">
     <div id="controls">
-        <label>Color: <input type="color" id="colorPicker"></label>
-        <label>Thickness: <input type="range" id="thickness" min="1" max="20" value="5"></label>
-        <label>Alpha: <input type="range" id="alpha" min="1" max="255" value="255"></label>
-        <button id="undoLine">Undo Line</button>
-        <button id="undoSeg">Undo Segment</button>
-        <button id="reduce">Reduce</button>
-        <div id="segmentCount">0 lines, 0 total segments</div>
+      <label>Color: <input type="color" id="colorPicker"></label>
+      <label>Thickness: <input type="range" id="thickness" min="1" max="20" value="5"></label>
+      <label>Alpha: <input type="range" id="alpha" min="1" max="255" value="255"></label>
+      <button id="undoLine">Undo Line</button>
+      <button id="undoSeg">Undo Segment</button>
+      <button id="reduce">Reduce</button>
+      <button id="clear">Clear Canvas</button>
+      <div id="segmentCount">0 lines, 0 total segments</div>
     </div>
+    <div id="toggleTab">↓</div>
+  </div>
 </body>
 </html>

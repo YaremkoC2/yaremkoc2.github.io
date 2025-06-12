@@ -18,17 +18,48 @@ html, body {
 }
 
 /* Floating controls box */
+#controlWrapper {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: stretch;
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
 #controls {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    z-index: 10;
-    font-family: sans-serif;
-    width: 200px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  border-radius: 8px 0 0 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  font-family: sans-serif;
+}
+
+#controls.hidden {
+    transform: translateX(-110%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+#toggleTab {
+  background: #444;
+  color: white;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding: 0.5rem;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+#toggleTab:hover {
+  background-color: #222;
 }
 
 #controls label,

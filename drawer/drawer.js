@@ -246,15 +246,22 @@ function CountLines() {
 
 // function to save the lines to local storage
 function saveLines() {
-    const serializableStack = lineStack.map(linkedList =>
-        [...linkedList].map(seg => ({
-            start: seg._startPoint,
-            end: seg._endPoint,
-            thickness: seg._thickness,
-            alpha: seg._alpha,
-            color: seg._color
-        }))
-    );
+    const serializableStack = lineStack.map(linkedList => {
+        const segments = [];
+        let current = linkedList.First;
+        while (current !== null) {
+            const seg = current.value;
+            segments.push({
+                start: seg.startPoint,
+                end: seg.endPoint,
+                thickness: seg.thickness,
+                alpha: seg.alpha,
+                color: seg.color
+            });
+            current = current.next;
+        }
+        return segments;
+    });
 
     localStorage.setItem('drawnLines', JSON.stringify(serializableStack));
 }
@@ -269,8 +276,8 @@ function loadLines() {
         const ll = new LinkedList();
         segList.forEach(seg => {
             ll.addLast(new LineSeg(
-                seg.start,
-                seg.end,
+                new Point(seg.start.x, seg.start.y),
+                new Point(seg.end.x, seg.end.y),
                 seg.thickness,
                 seg.alpha,
                 seg.color

@@ -56,6 +56,8 @@ html, body {
   font-size: 1.2rem;
   user-select: none;
   transition: background-color 0.2s ease;
+  height: 5%;
+  width: 5%;
 }
 
 #toggleTab:hover {

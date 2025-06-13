@@ -11,7 +11,7 @@ let currentPath = new Path2D();
 
 //initialize the drawing settings
 const lineStack = loadLines();
-let llSegs;
+let llSegs = lineStack.at(-1) ?? new LinkedList();
 let drawing = false;
 let mousePos = new Point(0, 0);
 let thickness = document.getElementById('thickness');
@@ -175,7 +175,7 @@ function reduceComplexity(linkedList) {
 function undoLine() {
     if (lineStack.length > 0) {
         lineStack.pop();
-        llSegs = lineStack.at(-1) || new LinkedList();
+        llSegs = lineStack.at(-1) ?? new LinkedList();
         Render();
         saveLines();
     }
@@ -189,7 +189,7 @@ function undoSeg(){
 
         if (llSegs.Count === 1) {
             lineStack.pop();
-            llSegs = lineStack.at(-1) || new LinkedList();
+            llSegs = lineStack.at(-1) ?? new LinkedList();
         }
 
         Render();

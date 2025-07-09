@@ -36,7 +36,6 @@ class Gate {
     }
 }
 
-
 class And extends Gate {
     getOutput() {
         return this.inA && this.inB;

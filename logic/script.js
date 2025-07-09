@@ -1,3 +1,3 @@
 // import logic gates
-import { And, Or, Not, Xor, Nand, Nor, XNor } from './gates.js';
+import { And, Or, Xor, Nand, Nor, XNor } from './gates.js';
 

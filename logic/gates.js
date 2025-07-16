@@ -64,19 +64,25 @@ class Gate {
 
 class And extends Gate {
     getOutput() {
-        return this.inA && this.inB;
+        const a = this.inA?.output ?? false;
+        const b = this.inB?.output ?? false;
+        return a && b;
     }
 }
 
 class Or extends Gate {
     getOutput() {
-        return this.inA || this.inB;
+        const a = this.inA?.output ?? false;
+        const b = this.inB?.output ?? false;
+        return a || b;
     }
 }
 
 class Xor extends Gate {
     getOutput() {
-        return this.inA !== this.inB;
+        const a = this.inA?.output ?? false;
+        const b = this.inB?.output ?? false;
+        return a !== b;
     }
 }
 

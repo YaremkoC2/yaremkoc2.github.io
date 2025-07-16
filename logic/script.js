@@ -251,4 +251,3 @@ function updateLogic() {
 
     drawAll();
 }
-

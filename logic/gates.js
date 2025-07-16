@@ -71,3 +71,6 @@ class XNor extends Xor {
         return !super.getOutput();
     }
 }
+
+// Export everything
+export { Gate, And, Or, Xor, NAnd, NOr, XNor };

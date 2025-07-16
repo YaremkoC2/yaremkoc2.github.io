@@ -24,12 +24,21 @@ class Gate {
     }
 
     draw(ctx) {
+        // Draw gate body
         ctx.fillStyle = 'lightgray';
         ctx.fillRect(this.x, this.y, 60, 40);
         ctx.strokeRect(this.x, this.y, 60, 40);
+
+        // Configure font
         ctx.fillStyle = 'black';
-        ctx.fillText(this.constructor.name, this.x + 5, this.y + 25);
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Draw centered gate name
+        ctx.fillText(this.constructor.name, this.x + 30, this.y + 20);
     }
+
 
     isInside(x, y) {
         return x >= this.x && x <= this.x + 60 && y >= this.y && y <= this.y + 40;

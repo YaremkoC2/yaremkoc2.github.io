@@ -7,7 +7,21 @@
     <link rel="stylesheet" href="gates.css">
     <script type="module" src="script.js" defer></script>
 </head>
-<body>
-    <canvas id="gateCanvas" width="800" height="600"></canvas>
-</body>
+    <body>
+        <canvas id="canvas"></canvas>
+
+        <div id="controlWrapper">
+            <div id="controls">
+            <div class="gateButton" data-type="AND">AND</div>
+            <div class="gateButton" data-type="OR">OR</div>
+            <div class="gateButton" data-type="XOR">XOR</div>
+            <div class="gateButton" data-type="NAND">NAND</div>
+            <div class="gateButton" data-type="NOR">NOR</div>
+            <div class="gateButton" data-type="XNOR">XNOR</div>
+            <div class="gateButton" data-type="INPUT">INPUT</div>
+            <div class="gateButton" data-type="OUTPUT">OUTPUT</div>
+            </div>
+            <div id="toggleTab">↓</div>
+        </div>
+    </body>
 </html>

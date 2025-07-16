@@ -1,24 +1,29 @@
 // import logic gates
 import { And, Or, Xor, NAnd, NOr, XNor } from './gates.js';
 
-function runLogicGateTests() {
-    const tests = [
-        { gate: new And(true, true), expected: true },
-        { gate: new And(true, false), expected: false },
-        { gate: new Or(false, false), expected: false },
-        { gate: new Or(true, false), expected: true },
-        { gate: new Xor(true, false), expected: true },
-        { gate: new Xor(true, true), expected: false },
-        { gate: new NAnd(true, true), expected: false },
-        { gate: new NOr(false, false), expected: true },
-        { gate: new XNor(false, false), expected: true },
-        { gate: new XNor(true, false), expected: false },
-    ];
+// get the toggle tab and control wrapper
+const toggleTab = document.getElementById('toggleTab');
+const controlWrapper = document.getElementById('controlWrapper');
+let controlsVisible = true;
 
-    tests.forEach(({ gate, expected }, i) => {
-        const result = gate.output;
-        console.log(`${i + 1}: ${gate.constructor.name}(${gate.inA}, ${gate.inB}) → ${result} [${result === expected ? 'PASS' : 'FAIL'}]`);
-    });
+// Keep the canvas size responsive
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
 
-runLogicGateTests();
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// event handler for the toggle tab
+toggleTab.addEventListener('click', () => {
+  controlsVisible = !controlsVisible;
+
+  if (controlsVisible) {
+    controlWrapper.style.transform = 'translateX(0)';
+    toggleTab.textContent = '↓';
+  } else {
+    controlWrapper.style.transform = 'translateX(-88%)';
+    toggleTab.textContent = '↑';
+  }
+});

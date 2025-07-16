@@ -1,1 +1,117 @@
-/* nothing yet! */
+/* Make canvas fill the screen */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+#canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: aliceblue;
+    z-index: 0;
+}
+
+/* Floating controls box */
+#controlWrapper {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: stretch;
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+#controls {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  border-radius: 8px 0 8px 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  font-family: sans-serif;
+}
+
+#controls.hidden {
+    transform: translateX(-110%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+#toggleTab {
+  background: #444;
+  color: white;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding: 0.5rem;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  user-select: none;
+  transition: background-color 0.2s ease;
+  height: 5%;
+  width: 5%;
+}
+
+#toggleTab:hover {
+  background-color: #222;
+}
+
+#controls label,
+#controls button,
+#controls div {
+    display: block;
+    margin-bottom: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Inputs inside labels should stretch uniformly */
+#controls input[type="range"],
+#controls input[type="color"] {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+/* Style all buttons consistently */
+#controls button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: none;
+    background-color: #007acc;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#controls button:hover:not(:disabled) {
+    background-color: #005fa3;
+}
+
+#controls button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.gateButton {
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    text-align: center;
+    font-family: sans-serif;
+    cursor: grab;
+    transition: background-color 0.2s ease;
+}
+
+.gateButton:hover {
+    background-color: #ddd;
+}

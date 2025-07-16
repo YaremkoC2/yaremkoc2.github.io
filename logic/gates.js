@@ -37,6 +37,23 @@ class Gate {
 
         // Draw centered gate name
         ctx.fillText(this.constructor.name, this.x + 30, this.y + 20);
+
+        // Draw inputs
+        ctx.beginPath();
+        ctx.arc(this.x, this.y + 10, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(this.x, this.y + 30, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+
+        // Draw outputs
+        ctx.beginPath();
+        ctx.arc(this.x + 60, this.y + 20, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'black';
+        ctx.fill();
     }
 
 
@@ -81,5 +98,75 @@ class XNor extends Xor {
     }
 }
 
+class InputNode extends Gate {
+    constructor(initial = false) {
+        super(null, null);
+        this.state = initial;
+    }
+
+    getOutput() {
+        return this.state;
+    }
+
+    toggle() {
+        this.state = !this.state;
+        onLogicUpdate();
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = this.state ? '#b2f2bb' : '#ffa8a8'; // green/red
+        ctx.fillRect(this.x, this.y, 60, 40);
+        ctx.strokeRect(this.x, this.y, 60, 40);
+
+        ctx.fillStyle = 'black';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(this.state ? '1' : '0', this.x + 30, this.y + 20);
+
+        // draw output connection
+        ctx.beginPath();
+        ctx.arc(this.x + 60, this.y + 20, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+    }
+}
+
+class OutputNode extends Gate {
+    constructor(input = null) {
+        super(input, null);
+    }
+
+    getOutput() {
+        return this.inA?.output ?? false;
+    }
+
+    draw(ctx) {
+        const output = this.getOutput();
+
+        // Fill the whole gate based on logic state
+        ctx.fillStyle = output ? '#b2f2bb' : '#ffa8a8'; // green/red
+        ctx.fillRect(this.x, this.y, 60, 40);
+        ctx.strokeRect(this.x, this.y, 60, 40);
+
+        // Draw the 1 or 0 label
+        ctx.fillStyle = 'black';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(output ? '1' : '0', this.x + 30, this.y + 20);
+
+        // Draw input connection 
+        ctx.beginPath();
+        ctx.arc(this.x, this.y + 20, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+    }
+}
+
 // Export everything
-export { Gate, And, Or, Xor, NAnd, NOr, XNor };
+export { Gate, And, Or, Xor, NAnd, NOr, XNor, InputNode, OutputNode, nextGateId };
+export let onLogicUpdate = () => {};
+export function setLogicUpdateCallback(callback) {
+    onLogicUpdate = callback;
+}

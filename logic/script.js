@@ -14,6 +14,8 @@ const dragThreshold = 5;
 const connections = [];
 let controlsVisible = true;
 let selectedGate = null;
+let cursorX = 0;
+let cursorY = 0;
 let offsetX = 0;
 let offsetY = 0;
 let gates = [];
@@ -107,6 +109,9 @@ function onPointerDown(e) {
 }
 
 function onPointerMove(e) {
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+
     if (selectedGate) {
         const dx = e.clientX - dragStart.x;
         const dy = e.clientY - dragStart.y;
@@ -117,8 +122,15 @@ function onPointerMove(e) {
 
         selectedGate.setPosition(e.clientX - offsetX, e.clientY - offsetY);
         drawAll();
+        return;
+    }
+
+    // Redraw with preview wire if in wiring mode
+    if (selectedOutputGate) {
+        drawAll();
     }
 }
+
 
 function onPointerUp(e) {
     const x = e.clientX;
@@ -205,6 +217,19 @@ function drawAll() {
     // Draw gates
     ctx.strokeStyle = 'black';
     gates.forEach(g => g.draw(ctx));
+
+    // draw wire preview if a wire is being currently dragged
+    if (selectedOutputGate) {
+        const { x: fromX, y: fromY } = selectedOutputGate.getOutputPosition();
+
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(cursorX, cursorY);
+        ctx.strokeStyle = selectedOutputGate.output ? 'darkgreen' : 'darkred';
+        ctx.setLineDash([5, 5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
 }
 
 // function to check if a point is near the output of a gate

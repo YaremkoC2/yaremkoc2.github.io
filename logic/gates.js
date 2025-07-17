@@ -56,9 +56,21 @@ class Gate {
         ctx.fill();
     }
 
-
     isInside(x, y) {
         return x >= this.x && x <= this.x + 60 && y >= this.y && y <= this.y + 40;
+    }
+
+    getOutputPosition() {
+        return { x: this.x + 60, y: this.y + 20 };
+    }
+
+    getInputPosition(index) {
+        if (index === 0) {
+            return { x: this.x, y: this.y + 10 };
+        } else if (index === 1) {
+            return { x: this.x, y: this.y + 30 };
+        }
+        return null; // Invalid index
     }
 }
 

@@ -8,6 +8,21 @@ body {
   background-color: #FAF9F6;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.page-container {
+  min-height: 100vh;       
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
 .title {
   font-family: 'Bebas Neue', sans-serif;
   text-align: center;
@@ -84,6 +99,13 @@ p {
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  color: #2B2E4A;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #FAF9F6;
   color: #2B2E4A;
 }
 

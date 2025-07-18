@@ -261,16 +261,11 @@ function isNearInput(gate, x, y) {
 
 // Function to update logic gates and redraw
 function updateLogic() {
-    // Topological sort would be best, but this brute-force loop is enough for now
-    // Repeat N times to let signal propagate down multiple levels
     for (let i = 0; i < gates.length; i++) {
         for (let gate of gates) {
-            // Skip InputNodes — they don't compute
+            // Skip InputNodes
             if (gate instanceof InputNode) continue;
-
-            // Force re-evaluation by reading `output`
-            // (If you cache output in a variable, update that here)
-            gate.output; // triggers getOutput()
+            gate.output; 
         }
     }
 

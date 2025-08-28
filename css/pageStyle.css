@@ -123,6 +123,35 @@ h3, h4 {
     color: #FF6B6B;
 }
 
+.taskItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 0.4rem;
+  background: #fdf7e0;
+  color: #2B2E4A;
+}
+
+.taskContent {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.taskLabel {
+  flex: 1;
+  font-family: "Inter", sans-serif;
+}
+
+.taskCheckbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
 /* Styling for desktops */
 @media screen and (min-width: 800px) {
     .about,

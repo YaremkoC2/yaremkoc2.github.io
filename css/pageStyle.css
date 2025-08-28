@@ -149,7 +149,7 @@ h3, h4 {
 .taskCheckbox {
   width: 18px;
   height: 18px;
-  cursor: pointer;
+  pointer-events: none;
 }
 
 /* Styling for desktops */

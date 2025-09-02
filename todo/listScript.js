@@ -4,7 +4,7 @@ const addBtn = document.getElementById('add');
 const todoList = document.getElementById('todo');
 const completedList = document.getElementById('completed');
 const clearTasksBtn = document.getElementById('clearTasks');
-const clearCompletedBtn = document.getElementById('clearCompleted');
+const clearCompletedBtn = document.getElementById('clearComplete');
 
 // Load tasks from localStorage
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];

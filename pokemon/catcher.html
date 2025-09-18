@@ -9,6 +9,13 @@
 </head>
 <body>
     <h1>Pokémon Catcher</h1>
-    <p id="pokemon-info">Fetching data...</p>
+    <p>Pokéballs: <span id="balls">5</span> | Money: $<span id="money">0</span></p>
+
+  <div id="pokemon"></div>
+  <button onclick="spawnPokemon()">Spawn Pokémon</button>
+  <button onclick="catchPokemon()" disabled>Catch!</button>
+
+  <h2>Collection</h2>
+  <ul id="collection"></ul>
 </body>
 </html>

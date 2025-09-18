@@ -29,12 +29,14 @@ def fetch_pokemon_data(name, idx):
         poke_res.raise_for_status()
         poke_data = poke_res.json()
         sprite = poke_data["sprites"]["front_default"]
+        shiny = poke_data["sprites"]["front_shiny"]
 
         return {
             "id": idx,
             "name": name,
             "captureRate": capture_rate,
-            "sprite": sprite
+            "sprite": sprite,
+            "shiny": shiny
         }
     except Exception as e:
         print(f"Error fetching {name}: {e}")

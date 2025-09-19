@@ -67,9 +67,12 @@ function spawnPokemon() {
     const idx = Math.floor(Math.random() * pokemonList.length);
     currentPokemon = pokemonList[idx];
 
+    // 1 in 8192 chance to be shiny
+    currentPokemon.isShiny = Math.floor(Math.random() * 8192) === 0;
+
     document.getElementById("pokemon").innerHTML = `
-        <h3>${currentPokemon.name}</h3>
-        <img src="${currentPokemon.sprite}" alt="${currentPokemon.name}">
+        <h3>${currentPokemon.isShiny ? "✨ " + currentPokemon.name + " ✨" : currentPokemon.name}</h3>
+        <img src="${currentPokemon.isShiny ? currentPokemon.shiny : currentPokemon.sprite}" alt="${currentPokemon.name}">
         <p>Catch Rate: ${currentPokemon.captureRate}</p>
     `;
 }
@@ -88,9 +91,13 @@ function throwBall(ballKey) {
     if (ballKey === "masterball") {
         caught = true; // Master Ball = guaranteed
     } else {
-        const chance = Math.random() * 255;
-        const effectiveRate = currentPokemon.captureRate * ballData[ballKey].multiplier;
-        caught = chance <= effectiveRate;
+        const chance = Math.random();
+        const maxSuccessRate = 0.98; // 98% maximum chance
+
+        // Normalize effective rate into 0–1 range
+        let successRate = (currentPokemon.captureRate * ballData[ballKey].multiplier) / 255;
+        successRate = Math.min(successRate, maxSuccessRate);
+        caught = chance <= successRate;
     }
 
     if (caught) {

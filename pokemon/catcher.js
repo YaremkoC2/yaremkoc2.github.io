@@ -131,7 +131,7 @@ function gainXP(amount) {
     while (player.xp >= player.xpNeeded) {
         player.xp -= player.xpNeeded;
         player.level++;
-        player.xpNeeded = player.xpNeeded + Math.floor(player.xpNeeded * 0.7); // increase needed XP by 70%
+        player.xpNeeded = player.xpNeeded + Math.floor(player.xpNeeded * 0.3); // increase needed XP by 30%
         alert(`🎉 You leveled up! Now level ${player.level}`);
     }
 }

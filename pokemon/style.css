@@ -1,10 +1,24 @@
-body {
-  font-family: 'Verdana', sans-serif;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   background: linear-gradient(#f8f9fa, #e6f0ff);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Verdana', sans-serif;
   margin: 0;
   padding: 20px;
   color: #333;
   text-align: center;
+}
+
+body > * {
+  flex-shrink: 0;
+}
+
+#collection {
+  flex-grow: 1;
+  overflow-y: auto; 
 }
 
 h1 {
@@ -38,7 +52,6 @@ p {
 h2 {
   margin-top: 30px;
   color: #457b9d; /* nice blue */
-  border-bottom: 2px solid #a8dadc;
   display: inline-block;
   padding-bottom: 5px;
 }

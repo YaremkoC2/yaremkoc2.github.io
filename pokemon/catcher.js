@@ -143,10 +143,8 @@ function gainXP(amount) {
 
 // Update UI stats
 function updateStats() {
-    document.getElementById("balls").textContent = balls.pokeball;
     document.getElementById("money").textContent = money;
     document.getElementById("level").textContent = player.level;
-
     updateXP(player.xp, player.xpNeeded);
 }
 

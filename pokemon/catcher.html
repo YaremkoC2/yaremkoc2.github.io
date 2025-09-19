@@ -12,10 +12,15 @@
   <h1>Pokémon Catcher</h1>
   <p>
     Level: <span id="level">1</span> | 
-    XP: <span id="xp">0 / 100</span> | 
     Pokéballs: <span id="balls">5</span> | 
     Money: $<span id="money">0</span>
   </p>
+
+  <div>
+    <label for="xpBar">XP:</label>
+    <progress id="xpBar" value="0" max="100"></progress>
+    <span id="xpText">0 / 100</span>
+  </div>
 
   <div id="pokemon"></div>
 

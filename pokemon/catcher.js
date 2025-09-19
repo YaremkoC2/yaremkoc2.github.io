@@ -77,8 +77,13 @@ function spawnPokemon() {
     document.getElementById("pokemon").innerHTML = `
         <h3>${currentPokemon.isShiny ? "✨ " + currentPokemon.name + " ✨" : currentPokemon.name}</h3>
         <img src="${currentPokemon.isShiny ? currentPokemon.shiny : currentPokemon.sprite}" alt="${currentPokemon.name}">
-        <p>Catch Rate: ${currentPokemon.captureRate}</p>
+        <div>
+            <label for="catchDifficulty">Catch Difficulty:</label>
+            <progress id="catchDifficulty" value="0" max="100"></progress>
+        </div>
     `;
+
+    updateCatchDifficulty(currentPokemon.captureRate);
 }
 
 // Try to catch with chosen ball
@@ -141,7 +146,8 @@ function updateStats() {
     document.getElementById("balls").textContent = balls.pokeball;
     document.getElementById("money").textContent = money;
     document.getElementById("level").textContent = player.level;
-    document.getElementById("xp").textContent = `${player.xp} / ${player.xpNeeded}`;
+
+    updateXP(player.xp, player.xpNeeded);
 }
 
 // update collection with caught pokemon
@@ -182,6 +188,23 @@ function renderCollection() {
             </li>
         `;
     }
+}
+
+// Update XP bar UI
+function updateXP(currentXP, maxXP) {
+    const xpBar = document.getElementById('xpBar');
+    const xpText = document.getElementById('xpText');
+    xpBar.max = maxXP;
+    xpBar.value = currentXP;
+    xpText.textContent = `${currentXP} / ${maxXP}`;
+}
+
+// Update catch difficulty bar
+function updateCatchDifficulty(captureRate) {
+    const bar = document.getElementById('catchDifficulty');
+    let difficulty = 100 - Math.round((captureRate / 255) * 100);
+    difficulty = Math.max(5, difficulty); // minimum 5% difficulty
+    bar.value = difficulty;
 }
 
 

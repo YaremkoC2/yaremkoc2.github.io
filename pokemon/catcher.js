@@ -3,6 +3,7 @@ let currentPokemon = null;
 let balls = { pokeball: 5, greatball: 0, ultraball: 0, masterball: 0 };
 let money = 0;
 let ballData = {};
+const collection = {};
 
 let player = {
     level: 1,
@@ -64,8 +65,11 @@ function renderBallButtons() {
 function spawnPokemon() {
     if (!pokemonList.length) return;
 
-    const idx = Math.floor(Math.random() * pokemonList.length);
-    currentPokemon = pokemonList[idx];
+    const maxRate = 255 - (player.level - 1) * 10;
+    const filteredList = pokemonList.filter(p => p.captureRate >= maxRate);
+
+    const idx = Math.floor(Math.random() * filteredList.length);
+    currentPokemon = filteredList[idx];
 
     // 1 in 8192 chance to be shiny
     currentPokemon.isShiny = Math.floor(Math.random() * 8192) === 0;
@@ -101,6 +105,9 @@ function throwBall(ballKey) {
     }
 
     if (caught) {
+        // update collection
+        addToCollection(currentPokemon);
+
         // reward scaling with rarity
         const moneyEarned = Math.round((255 - currentPokemon.captureRate) / 10) + 1;
         const xpEarned = Math.round((255 - currentPokemon.captureRate) / 5) + 5;
@@ -108,7 +115,6 @@ function throwBall(ballKey) {
         money += moneyEarned;
         gainXP(xpEarned);
 
-        document.getElementById("collection").innerHTML += `<li>${currentPokemon.name}</li>`;
         alert(`You caught ${currentPokemon.name}! +$${moneyEarned}, +${xpEarned} XP`);
         spawnPokemon();
     } else {
@@ -137,6 +143,47 @@ function updateStats() {
     document.getElementById("level").textContent = player.level;
     document.getElementById("xp").textContent = `${player.xp} / ${player.xpNeeded}`;
 }
+
+// update collection with caught pokemon
+function addToCollection(pokemon) {
+    const name = pokemon.name;
+
+    if (!collection[name]) {
+        // First time catching this Pokémon
+        collection[name] = {
+            count: 1,
+            isShiny: pokemon.isShiny,
+            sprite: pokemon.sprite,
+            shiny: pokemon.shiny
+        };
+    } else {
+        // Already caught before
+        collection[name].count++;
+        // Upgrade to shiny if current catch is shiny
+        if (pokemon.isShiny) {
+            collection[name].isShiny = true;
+        }
+    }
+
+    renderCollection();
+}
+
+// render collection UI
+function renderCollection() {
+    const collectionEl = document.getElementById("collection");
+    collectionEl.innerHTML = '';
+
+    for (const key in collection) {
+        const p = collection[key];
+        collectionEl.innerHTML += `
+            <li>
+                <img src="${p.isShiny ? p.shiny : p.sprite}" alt="${key}" width="40">
+                ${key} x${p.count} ${p.isShiny ? "✨" : ""}
+            </li>
+        `;
+    }
+}
+
 
 // Init
 loadJsonData();

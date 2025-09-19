@@ -4,6 +4,12 @@ let balls = { pokeball: 5, greatball: 0, ultraball: 0, masterball: 0 };
 let money = 0;
 let ballData = {};
 
+let player = {
+    level: 1,
+    xp: 0,
+    xpNeeded: 100
+};
+
 // Load Pokémon data
 async function loadJsonData() {
     try {
@@ -88,10 +94,16 @@ function throwBall(ballKey) {
     }
 
     if (caught) {
-        money += 10;
+        // reward scaling with rarity
+        const moneyEarned = Math.round((255 - currentPokemon.captureRate) / 10) + 1;
+        const xpEarned = Math.round((255 - currentPokemon.captureRate) / 5) + 5;
+
+        money += moneyEarned;
+        gainXP(xpEarned);
+
         document.getElementById("collection").innerHTML += `<li>${currentPokemon.name}</li>`;
-        alert(`You caught ${currentPokemon.name}!`);
-        spawnPokemon(); // move to next Pokémon
+        alert(`You caught ${currentPokemon.name}! +$${moneyEarned}, +${xpEarned} XP`);
+        spawnPokemon();
     } else {
         alert(`${currentPokemon.name} broke free!`);
     }
@@ -100,10 +112,23 @@ function throwBall(ballKey) {
     renderBallButtons(); // update ball counts
 }
 
+// --- XP & Level ---
+function gainXP(amount) {
+    player.xp += amount;
+    while (player.xp >= player.xpNeeded) {
+        player.xp -= player.xpNeeded;
+        player.level++;
+        player.xpNeeded = player.xpNeeded + Math.floor(player.xpNeeded * 0.7); // increase needed XP by 70%
+        alert(`🎉 You leveled up! Now level ${player.level}`);
+    }
+}
+
 // Update UI stats
 function updateStats() {
     document.getElementById("balls").textContent = balls.pokeball;
     document.getElementById("money").textContent = money;
+    document.getElementById("level").textContent = player.level;
+    document.getElementById("xp").textContent = `${player.xp} / ${player.xpNeeded}`;
 }
 
 // Init

@@ -1,0 +1,84 @@
+body {
+  font-family: 'Verdana', sans-serif;
+  background: linear-gradient(#f8f9fa, #e6f0ff);
+  margin: 0;
+  padding: 20px;
+  color: #333;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #e63946; /* Pokéball red */
+  text-shadow: 2px 2px #fff;
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 10px 0 20px;
+}
+
+#pokemon {
+  margin: 20px auto;
+  padding: 15px;
+  width: 200px;
+  border: 3px solid #333;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#pokemon img {
+  width: 120px;
+  height: auto;
+  margin-top: 10px;
+}
+
+h2 {
+  margin-top: 30px;
+  color: #457b9d; /* nice blue */
+  border-bottom: 2px solid #a8dadc;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+#ball-buttons button {
+  margin: 8px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #f1faee;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+#ball-buttons button:hover {
+  background-color: #a8dadc;
+  transform: scale(1.05);
+}
+
+#ball-buttons button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#collection {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 300px;
+  text-align: left;
+}
+
+#collection li {
+  background: #fefefe;
+  margin: 6px 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border-left: 6px solid #e63946;
+  box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
+}

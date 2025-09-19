@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokémon Catcher</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="catcher.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Catcher</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="catcher.js" defer></script>
 </head>
 <body>
-    <h1>Pokémon Catcher</h1>
-    <p>Pokéballs: <span id="balls">5</span> | Money: $<span id="money">0</span></p>
+  <h1>Pokémon Catcher</h1>
+  <p>Pokéballs: <span id="balls">5</span> | Money: $<span id="money">0</span></p>
 
   <div id="pokemon"></div>
-  <button onclick="spawnPokemon()">Spawn Pokémon</button>
-  <button onclick="catchPokemon()" disabled>Catch!</button>
+
+  <h2>Throw a Ball</h2>
+  <div id="ball-buttons"></div>
 
   <h2>Collection</h2>
   <ul id="collection"></ul>

@@ -23,6 +23,7 @@ async function loadJsonData() {
 }
 
 // Load Poké Ball info from API
+// Load Poké Ball info from API using fetch
 async function loadBallData() {
     const ballTypes = [
         { id: 1, key: "masterball", multiplier: 100.0 },
@@ -32,16 +33,22 @@ async function loadBallData() {
     ];
 
     for (let ball of ballTypes) {
-        const res = await axios.get(`https://pokeapi.co/api/v2/item/${ball.id}`);
+        const res = await fetch(`https://pokeapi.co/api/v2/item/${ball.id}`);
+        if (!res.ok) {
+            throw new Error(`Failed to fetch ${ball.key}: ${res.status}`);
+        }
+        const data = await res.json();
+
         ballData[ball.key] = {
-            name: res.data.name,
-            sprite: res.data.sprites.default,
+            name: data.name,
+            sprite: data.sprites.default,
             multiplier: ball.multiplier,
         };
     }
 
     renderBallButtons();
 }
+
 
 // Render ball buttons dynamically
 function renderBallButtons() {

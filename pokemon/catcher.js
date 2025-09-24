@@ -22,7 +22,6 @@ async function loadJsonData() {
     }
 }
 
-// Load Poké Ball info from API
 // Load Poké Ball info from API using fetch
 async function loadBallData() {
     const ballTypes = [

@@ -100,3 +100,23 @@ progress {
     width: 200px;
     height: 20px;
 }
+
+#store {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+#store button {
+  width: 120px;
+  padding: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+#store button img {
+  width: 40px;
+  height: auto;
+  margin-bottom: 5px;
+}

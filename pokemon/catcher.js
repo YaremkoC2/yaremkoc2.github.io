@@ -1,7 +1,7 @@
 let pokemonList = [];
 let currentPokemon = null;
 let balls = { pokeball: 5, greatball: 0, ultraball: 0, masterball: 0 };
-let money = 0;
+let money = 1000;
 let ballData = {};
 const collection = {};
 
@@ -25,10 +25,10 @@ async function loadJsonData() {
 // Load Poké Ball info from API using fetch
 async function loadBallData() {
     const ballTypes = [
-        { id: 1, key: "masterball", multiplier: 100.0 },
-        { id: 2, key: "ultraball", multiplier: 2.0 },
-        { id: 3, key: "greatball", multiplier: 1.5 },
-        { id: 4, key: "pokeball", multiplier: 1.0 },
+        { id: 1, key: "masterball", multiplier: 100.0, price: 25000 },
+        { id: 2, key: "ultraball", multiplier: 2.0, price: 800 },
+        { id: 3, key: "greatball", multiplier: 1.5, price: 600 },
+        { id: 4, key: "pokeball", multiplier: 1.0, price: 200 },
     ];
 
     for (let ball of ballTypes) {
@@ -42,12 +42,13 @@ async function loadBallData() {
             name: data.name,
             sprite: data.sprites.default,
             multiplier: ball.multiplier,
+            price: ball.price
         };
     }
 
     renderBallButtons();
+    renderStore();
 }
-
 
 // Render ball buttons dynamically
 function renderBallButtons() {
@@ -58,12 +59,48 @@ function renderBallButtons() {
         if (balls[key] > 0) {
             const btn = document.createElement("button");
             btn.innerHTML = `
-            <img src="${ballData[key].sprite}" alt="${ballData[key].name}">
-            <br>${ballData[key].name} (${balls[key]})
+                <img src="${ballData[key].sprite}" alt="${ballData[key].name}">
+                <br>${ballData[key].name} (${balls[key]})
             `;
             btn.onclick = () => throwBall(key);
             container.appendChild(btn);
         }
+    }
+}
+
+// Render store items
+function renderStore() {
+    const container = document.getElementById("store");
+    container.innerHTML = "";
+
+    for (let key in ballData) {
+        const div = document.createElement("div");
+        div.style.margin = "10px";
+
+        const btn = document.createElement("button");
+        btn.innerHTML = `
+            <img src="${ballData[key].sprite}" alt="${ballData[key].name}">
+            <br>${ballData[key].name}
+            <br>$${ballData[key].price}
+        `;
+        btn.onclick = () => buyBall(key);
+
+        div.appendChild(btn);
+        container.appendChild(div);
+    }
+}
+
+// Buy a ball from the store
+function buyBall(key) {
+    if (money >= ballData[key].price) {
+        money -= ballData[key].price;
+        balls[key] = (balls[key] || 0) + 1;
+
+        updateStats(); 
+        renderStore();
+        renderBallButtons();
+    } else {
+        alert("Not enough money!");
     }
 }
 
@@ -120,7 +157,7 @@ function throwBall(ballKey) {
         addToCollection(currentPokemon);
 
         // reward scaling with rarity
-        const moneyEarned = Math.round((255 - currentPokemon.captureRate) / 10) + 1;
+        const moneyEarned = Math.max(10, Math.round((255 - currentPokemon.captureRate) / 5) + 10);
         const xpEarned = Math.round((255 - currentPokemon.captureRate) / 5) + 5;
 
         money += moneyEarned;
